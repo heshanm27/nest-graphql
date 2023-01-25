@@ -1,0 +1,46 @@
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { CreateProductInput } from './create-product.input';
+import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+
+@InputType()
+export class UpdateProductInput extends PartialType(CreateProductInput) {
+  @IsNotEmpty()
+  @IsNumber()
+  @Field()
+  id: number;
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  productName: string;
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  productCode: string;
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  description: string;
+
+  @IsNumber()
+  @IsOptional()
+  @Field({ nullable: true })
+  price: number;
+
+  @IsNumber()
+  @IsOptional()
+  @Field({ nullable: true })
+  starRating: number;
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  imageUrl: string;
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  suppliersId: string;
+}

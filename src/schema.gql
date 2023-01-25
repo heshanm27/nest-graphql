@@ -1,0 +1,69 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Product {
+  id: Int!
+  productName: String!
+  productCode: String!
+  description: String!
+  price: Float!
+  starRating: Float!
+  imageUrl: String!
+  suppliersId: String!
+}
+
+type Query {
+  findAllProduct(FilterOptions: ProductFilterInput!): [Product!]!
+  findOneProduct(id: Int!): Product!
+}
+
+input ProductFilterInput {
+  page: Float = 1
+  limit: Float = 10
+  sort: Sort = ASC
+  orderBy: OrderBy = ID
+}
+
+"""Sort Options"""
+enum Sort {
+  ASC
+  DESC
+}
+
+"""Order By Options"""
+enum OrderBy {
+  ID
+  NAME
+  CODE
+  PRICE
+  STAR
+  SUPPLIER
+}
+
+type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: Int!): Product!
+}
+
+input CreateProductInput {
+  productName: String!
+  productCode: String!
+  description: String
+  price: Float!
+  starRating: Float
+  imageUrl: String
+  suppliersId: String
+}
+
+input UpdateProductInput {
+  productName: String
+  productCode: String
+  description: String
+  price: Float
+  starRating: Float
+  imageUrl: String
+  suppliersId: String
+  id: Float!
+}

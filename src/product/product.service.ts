@@ -34,7 +34,7 @@ export class ProductService {
       .createQueryBuilder('product')
       .orderBy(filteroptions.orderBy, filteroptions.sort)
       .limit(filteroptions.limit)
-      .offset(filteroptions.page)
+      .offset(filteroptions.page * filteroptions.limit)
       .getMany();
   }
 

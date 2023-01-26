@@ -15,9 +15,16 @@ export class ComponentsService {
 
   async create(createComponentInput: CreateComponentInput) {
     try {
-      const product = await this.componentRepository.create(
-        createComponentInput,
-      );
+      const product = await this.componentRepository.create({
+        componenId: createComponentInput.componenId
+          ? createComponentInput.componenId
+          : createComponentInput.name,
+        name: createComponentInput.name,
+        label: createComponentInput.label
+          ? createComponentInput.label
+          : createComponentInput.name,
+        type: createComponentInput.type,
+      });
       return await this.componentRepository.save(product);
     } catch (error) {
       console.log(error);
@@ -53,7 +60,6 @@ export class ComponentsService {
     try {
       const component = await this.componentRepository.findOneBy({ id });
       if (!component) throw new BadRequestException('Product not found');
-
       const deleted = await this.componentRepository.delete({ id });
       console.log(deleted);
       return component;

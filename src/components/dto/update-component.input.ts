@@ -28,14 +28,15 @@ export class UpdateComponentInput {
   type: string;
 
   @IsString()
-  @Field()
+  @IsOptional()
+  @Field({ nullable: true })
   name: string;
 
   @IsOptional()
-  @Field()
+  @Field({ nullable: true })
   componenId: string;
 
   @IsOptional()
-  @Field()
+  @Field({ nullable: true })
   label: string;
 }

@@ -109,7 +109,7 @@ enum HTMLInputType {
 input UpdateComponentInput {
   id: Int!
   type: HTMLInputType = TEXT
-  name: String!
-  componenId: String!
-  label: String!
+  name: String
+  componenId: String
+  label: String
 }

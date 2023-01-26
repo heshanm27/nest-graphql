@@ -12,7 +12,7 @@ export class Component {
   @Field()
   type: string;
 
-  @Column({ nullable: true })
+  @Column({ unique: true })
   @Field()
   name: string;
 

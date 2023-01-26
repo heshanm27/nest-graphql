@@ -6,6 +6,7 @@ import { ProductModule } from './product/product.module';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from 'db/data_source';
+import { ComponentsModule } from './components/components.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { dataSourceOptions } from 'db/data_source';
       autoLoadEntities: true,
     }),
     ProductModule,
+    ComponentsModule,
   ],
 })
 export class AppModule {}

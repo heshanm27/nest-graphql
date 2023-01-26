@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  nestserver:
+    build: .
+    ports:
+      - '3000:3000'
+    networks:
+      - nest-app
+
+networks:
+  nest-app:
+    driver: bridge

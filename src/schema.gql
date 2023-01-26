@@ -13,9 +13,20 @@ type Product {
   suppliersId: String!
 }
 
+type Component {
+  id: Int!
+  type: String!
+  name: String!
+  componenId: String
+  label: String
+}
+
 type Query {
   findAllProduct(FilterOptions: ProductFilterInput!): [Product!]!
   findOneProduct(id: Int!): Product!
+  searchProduct(search: ProductSearchInput!): [Product!]!
+  components: [Component!]!
+  component(id: Int!): Component!
 }
 
 input ProductFilterInput {
@@ -41,10 +52,18 @@ enum OrderBy {
   SUPPLIER
 }
 
+input ProductSearchInput {
+  productName: String = ""
+  filterOptions: ProductFilterInput
+}
+
 type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   removeProduct(id: Int!): Product!
+  createComponent(createComponentInput: CreateComponentInput!): Component!
+  updateComponent(updateComponentInput: UpdateComponentInput!): Component!
+  removeComponent(id: Int!): Component!
 }
 
 input CreateProductInput {
@@ -66,4 +85,31 @@ input UpdateProductInput {
   imageUrl: String
   suppliersId: String
   id: Float!
+}
+
+input CreateComponentInput {
+  type: HTMLInputType = TEXT
+  name: String!
+  componenId: String!
+  label: String!
+}
+
+"""HTML Input Types """
+enum HTMLInputType {
+  DATE
+  EMAIL
+  NUMBER
+  PASSWORD
+  TEXT
+  TIME
+  FILE
+  CHECKBOX
+}
+
+input UpdateComponentInput {
+  id: Int!
+  type: HTMLInputType = TEXT
+  name: String!
+  componenId: String!
+  label: String!
 }

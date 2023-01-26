@@ -9,6 +9,7 @@ import {
   RequestTimeoutException,
 } from '@nestjs/common/exceptions';
 import { ProductFilterInput } from './dto/filter_product_input';
+import { ProductSearchInput } from './dto/search_product_Input';
 
 @Injectable()
 export class ProductService {
@@ -69,5 +70,18 @@ export class ProductService {
     } catch (error) {
       throw new BadRequestException(`Product with id ${id} not found`);
     }
+  }
+
+  async search(search: ProductSearchInput): Promise<Product[]> {
+    console.log(search);
+    return await this.productRepository
+      .createQueryBuilder('product')
+      .where('product.productName LIKE :search', {
+        search: `%${search.productName}%`,
+      })
+      // .orderBy(search.filterOptions.orderBy, search.filterOptions.sort)
+      // .limit(search.filterOptions.limit)
+      // .offset(search.filterOptions.page * search.filterOptions.limit)
+      .getMany();
   }
 }

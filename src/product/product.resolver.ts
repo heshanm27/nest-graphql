@@ -4,6 +4,7 @@ import { Product } from './entities/product.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { ProductFilterInput } from './dto/filter_product_input';
+import { ProductSearchInput } from './dto/search_product_Input';
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -26,6 +27,13 @@ export class ProductResolver {
   @Query(() => Product, { name: 'findOneProduct' })
   findOne(@Args('id', { type: () => Int }) id: number): Promise<Product> {
     return this.productService.findOne(id);
+  }
+
+  @Query(() => [Product], { name: 'searchProduct' })
+  searchProduct(
+    @Args('search') search: ProductSearchInput,
+  ): Promise<Product[]> {
+    return this.productService.search(search);
   }
 
   @Mutation(() => Product)

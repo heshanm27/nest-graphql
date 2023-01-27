@@ -9,23 +9,30 @@ export class ComponentsResolver {
   constructor(private readonly componentsService: ComponentsService) {}
 
   @Mutation(() => Component)
-  createComponent(@Args('createComponentInput') createComponentInput: CreateComponentInput) {
+  createComponent(
+    @Args('createComponentInput') createComponentInput: CreateComponentInput,
+  ) {
     return this.componentsService.create(createComponentInput);
   }
 
-  @Query(() => [Component], { name: 'components' })
+  @Query(() => [Component], { name: 'findAllComponents' })
   findAll() {
     return this.componentsService.findAll();
   }
 
-  @Query(() => Component, { name: 'component' })
+  @Query(() => Component, { name: 'findOnecomponent' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.componentsService.findOne(id);
   }
 
   @Mutation(() => Component)
-  updateComponent(@Args('updateComponentInput') updateComponentInput: UpdateComponentInput) {
-    return this.componentsService.update(updateComponentInput.id, updateComponentInput);
+  updateComponent(
+    @Args('updateComponentInput') updateComponentInput: UpdateComponentInput,
+  ) {
+    return this.componentsService.update(
+      updateComponentInput.id,
+      updateComponentInput,
+    );
   }
 
   @Mutation(() => Component)

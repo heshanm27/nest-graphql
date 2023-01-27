@@ -13,7 +13,22 @@ type Product {
   suppliersId: String!
 }
 
+type Collection {
+  id: Int!
+  displayName: String!
+  components: [Component!]!
+}
+
 type Component {
+  id: Int!
+  type: String!
+  name: String!
+  componenId: String
+  label: String
+  collection: Collection!
+}
+
+type Datum {
   id: Int!
   type: String!
   name: String!
@@ -21,22 +36,12 @@ type Component {
   label: String
 }
 
-type Datum {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-type Collection {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Query {
   findAllProduct(FilterOptions: ProductFilterInput!): [Product!]!
   findOneProduct(id: Int!): Product!
   searchProduct(search: ProductSearchInput!): [Product!]!
-  components: [Component!]!
-  component(id: Int!): Component!
+  findAllComponents: [Component!]!
+  findOnecomponent(id: Int!): Component!
   data: [Datum!]!
   datum(id: Int!): Datum!
   collection(id: Int!): Collection!

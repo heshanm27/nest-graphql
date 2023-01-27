@@ -15,7 +15,7 @@ type Product {
 
 type Collection {
   id: Int!
-  displayName: String!
+  collectionName: String!
   components: [Component!]!
 }
 
@@ -23,17 +23,10 @@ type Component {
   id: Int!
   type: String!
   name: String!
-  componenId: String
+  componentId: String
   label: String
+  collectionId: Int!
   collection: Collection!
-}
-
-type Datum {
-  id: Int!
-  type: String!
-  name: String!
-  componenId: String
-  label: String
 }
 
 type Query {
@@ -42,9 +35,8 @@ type Query {
   searchProduct(search: ProductSearchInput!): [Product!]!
   findAllComponents: [Component!]!
   findOnecomponent(id: Int!): Component!
-  data: [Datum!]!
-  datum(id: Int!): Datum!
-  collection(id: Int!): Collection!
+  collectionFindAll: [Collection!]!
+  collectionFindOne(id: Int!): Collection!
 }
 
 input ProductFilterInput {
@@ -82,9 +74,6 @@ type Mutation {
   createComponent(createComponentInput: CreateComponentInput!): Component!
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
-  createDatum(createDatumInput: CreateDatumInput!): Datum!
-  updateDatum(updateDatumInput: UpdateDatumInput!): Datum!
-  removeDatum(id: Int!): Datum!
   createCollection(createCollectionInput: CreateCollectionInput!): Collection!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
   removeCollection(id: Int!): Collection!
@@ -114,8 +103,9 @@ input UpdateProductInput {
 input CreateComponentInput {
   type: HTMLInputType = TEXT
   name: String!
-  componenId: String!
-  label: String!
+  collectionId: Int!
+  componentId: String
+  label: String
 }
 
 """HTML Input Types """
@@ -132,30 +122,17 @@ enum HTMLInputType {
 
 input UpdateComponentInput {
   id: Int!
+  collectionId: Int!
   type: HTMLInputType = TEXT
   name: String
   componenId: String
   label: String
 }
 
-input CreateDatumInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateDatumInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
 input CreateCollectionInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  collectionName: String!
 }
 
 input UpdateCollectionInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  collectionName: String!
 }

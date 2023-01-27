@@ -1,8 +1,17 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ComponentsService } from './components.service';
 import { Component } from './entities/component.entity';
 import { CreateComponentInput } from './dto/create-component.input';
 import { UpdateComponentInput } from './dto/update-component.input';
+import { UsePipes } from '@nestjs/common/decorators/core/use-pipes.decorator';
 
 @Resolver(() => Component)
 export class ComponentsResolver {
@@ -16,12 +25,12 @@ export class ComponentsResolver {
   }
 
   @Query(() => [Component], { name: 'findAllComponents' })
-  findAll() {
+  findAll(): Promise<Component[]> {
     return this.componentsService.findAll();
   }
 
   @Query(() => Component, { name: 'findOnecomponent' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => Int }) id: number): Promise<Component> {
     return this.componentsService.findOne(id);
   }
 

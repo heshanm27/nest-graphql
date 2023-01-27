@@ -9,13 +9,11 @@ export class Collection {
   @Field((type) => Int)
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   @Field()
-  displayName: string;
+  collectionName: string;
 
-  @OneToMany(() => Component, (component) => component.collection, {
-    cascade: true,
-  })
+  @OneToMany(() => Component, (component) => component.collection)
   @Field((type) => [Component])
   components: Component[];
 }

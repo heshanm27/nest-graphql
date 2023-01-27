@@ -26,13 +26,19 @@ export class Component {
 
   @Column({ unique: true })
   @Field({ nullable: true })
-  componenId: string;
+  componentId: string;
 
   @Column()
   @Field({ nullable: true })
   label: string;
 
-  @ManyToOne(() => Collection, (collection) => collection.components)
+  @Column()
+  @Field((type) => Int)
+  collectionId: number;
+
+  @ManyToOne(() => Collection, (collection) => collection.id, {
+    onDelete: 'CASCADE',
+  })
   @Field((type) => Collection)
   collection: Collection;
 }

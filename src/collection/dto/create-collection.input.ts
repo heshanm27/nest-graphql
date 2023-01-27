@@ -1,7 +1,9 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 @InputType()
 export class CreateCollectionInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @IsString()
+  @IsNotEmpty()
+  @Field()
+  collectionName: string;
 }

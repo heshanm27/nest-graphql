@@ -19,6 +19,10 @@ export class UpdateComponentInput {
   @Field((type) => Int)
   id: number;
 
+  @IsNumber()
+  @Field((type) => Int)
+  collectionId: number;
+
   @IsString()
   @IsNotEmpty()
   @Field(() => HTMLInputTypes, {

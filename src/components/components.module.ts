@@ -7,5 +7,6 @@ import { Component } from './entities/component.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Component])],
   providers: [ComponentsResolver, ComponentsService],
+  exports: [ComponentsService],
 })
 export class ComponentsModule {}

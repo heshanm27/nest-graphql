@@ -15,19 +15,29 @@ export class ComponentsService {
 
   async create(createComponentInput: CreateComponentInput) {
     try {
+      console.log({
+        name: createComponentInput.name.toLowerCase(),
+        ...createComponentInput,
+      });
       const product = await this.componentRepository.create({
-        componenId: createComponentInput.componenId
-          ? createComponentInput.componenId
+        componentId: createComponentInput.componentId
+          ? createComponentInput.componentId
           : createComponentInput.name,
-        name: createComponentInput.name,
         label: createComponentInput.label
           ? createComponentInput.label
           : createComponentInput.name,
-        type: createComponentInput.type,
+        ...createComponentInput,
       });
       return await this.componentRepository.save(product);
     } catch (error) {
       console.log(error);
+      if (error.code === 'ER_DUP_ENTRY')
+        throw new BadRequestException(
+          'Component already exists with this name',
+        );
+
+      if (error.code === 'ER_NO_REFERENCED_ROW_2')
+        throw new BadRequestException('Collection not found');
       throw new BadRequestException();
     }
   }
@@ -36,6 +46,12 @@ export class ComponentsService {
     return await this.componentRepository.find();
   }
 
+  async findComponentsByCollectionId(id: number): Promise<Component[]> {
+    return await this.componentRepository
+      .createQueryBuilder('component')
+      .where('component.collectionId = :id', { id })
+      .getMany();
+  }
   async findOne(id: number) {
     const product = await this.componentRepository.findOneBy({ id });
     if (!product)
@@ -50,7 +66,7 @@ export class ComponentsService {
     const foundComponent = await this.componentRepository.findOneBy({ id });
 
     if (!foundComponent)
-      throw new BadRequestException(`Component with id ${id} not found`);
+      throw new BadRequestException(`Component with id ${id} not foundy`);
 
     await this.componentRepository.update(id, updateComponentInput);
     return await this.componentRepository.findOneBy({ id });

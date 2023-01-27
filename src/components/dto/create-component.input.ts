@@ -1,5 +1,13 @@
-import { InputType, Field, registerEnumType } from '@nestjs/graphql';
-import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
+import { InputType, Field, registerEnumType, Int } from '@nestjs/graphql';
+import { Transform } from 'class-transformer';
+import {
+  IsString,
+  IsOptional,
+  IsNotEmpty,
+  IsNumberString,
+  isNumber,
+  IsNumber,
+} from 'class-validator';
 
 export enum HTMLInputTypes {
   DATE = 'date',
@@ -29,13 +37,19 @@ export class CreateComponentInput {
 
   @IsString()
   @Field()
+  @Transform(({ value }) => value.toLowerCase())
   name: string;
 
-  @IsOptional()
-  @Field()
-  componenId: string;
+  @IsNumber()
+  @IsNotEmpty()
+  @Field((type) => Int)
+  collectionId: number;
 
   @IsOptional()
-  @Field()
+  @Field({ nullable: true })
+  componentId: string;
+
+  @IsOptional()
+  @Field({ nullable: true })
   label: string;
 }

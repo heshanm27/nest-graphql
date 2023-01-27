@@ -21,12 +21,25 @@ type Component {
   label: String
 }
 
+type Datum {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Collection {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
   findAllProduct(FilterOptions: ProductFilterInput!): [Product!]!
   findOneProduct(id: Int!): Product!
   searchProduct(search: ProductSearchInput!): [Product!]!
   components: [Component!]!
   component(id: Int!): Component!
+  data: [Datum!]!
+  datum(id: Int!): Datum!
+  collection(id: Int!): Collection!
 }
 
 input ProductFilterInput {
@@ -64,6 +77,12 @@ type Mutation {
   createComponent(createComponentInput: CreateComponentInput!): Component!
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
+  createDatum(createDatumInput: CreateDatumInput!): Datum!
+  updateDatum(updateDatumInput: UpdateDatumInput!): Datum!
+  removeDatum(id: Int!): Datum!
+  createCollection(createCollectionInput: CreateCollectionInput!): Collection!
+  updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
+  removeCollection(id: Int!): Collection!
 }
 
 input CreateProductInput {
@@ -112,4 +131,26 @@ input UpdateComponentInput {
   name: String
   componenId: String
   label: String
+}
+
+input CreateDatumInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateDatumInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateCollectionInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCollectionInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

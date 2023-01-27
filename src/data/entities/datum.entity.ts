@@ -1,17 +1,9 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
-import { type } from 'os';
-import { Collection } from 'src/collection/entities/collection.entity';
-import {
-  Column,
-  Entity,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('component')
+@Entity('Data')
 @ObjectType()
-export class Component {
+export class Datum {
   @PrimaryGeneratedColumn('increment')
   @Field((type) => Int)
   id: number;
@@ -31,8 +23,4 @@ export class Component {
   @Column()
   @Field({ nullable: true })
   label: string;
-
-  @ManyToOne(() => Collection, (collection) => collection.components)
-  @Field((type) => Collection)
-  collection: Collection;
 }

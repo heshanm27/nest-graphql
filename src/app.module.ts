@@ -7,6 +7,8 @@ import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from 'db/data_source';
 import { ComponentsModule } from './components/components.module';
+import { DataModule } from './data/data.module';
+import { CollectionModule } from './collection/collection.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { ComponentsModule } from './components/components.module';
     }),
     ProductModule,
     ComponentsModule,
+    DataModule,
+    CollectionModule,
   ],
 })
 export class AppModule {}

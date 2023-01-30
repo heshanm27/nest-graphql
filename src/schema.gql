@@ -13,10 +13,23 @@ type Product {
   suppliersId: String!
 }
 
+type ComponentsValue {
+  id: Int!
+  data: JSON!
+  collectionId: Int!
+  collection: Collection!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
 type Collection {
   id: Int!
   collectionName: String!
   components: [Component!]!
+  componentsValue: [ComponentsValue!]!
 }
 
 type Component {
@@ -37,6 +50,7 @@ type Query {
   findOnecomponent(id: Int!): Component!
   collectionFindAll: [Collection!]!
   collectionFindOne(id: Int!): Collection!
+  GetCollectionData(id: Int!): ComponentsValue!
 }
 
 input ProductFilterInput {
@@ -77,6 +91,9 @@ type Mutation {
   createCollection(createCollectionInput: CreateCollectionInput!): Collection!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
   removeCollection(id: Int!): Collection!
+  createComponentsValue(createComponentsValueInput: CreateComponentsValueInput!): ComponentsValue!
+  updateComponentsValue(updateComponentsValueInput: UpdateComponentsValueInput!): ComponentsValue!
+  removeComponentsValue(id: Int!): ComponentsValue!
 }
 
 input CreateProductInput {
@@ -135,4 +152,15 @@ input CreateCollectionInput {
 
 input UpdateCollectionInput {
   collectionName: String!
+}
+
+input CreateComponentsValueInput {
+  data: JSON!
+  collectionId: Int!
+}
+
+input UpdateComponentsValueInput {
+  id: Int!
+  data: JSON!
+  collectionId: Int
 }

@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
+import { ComponentsValue } from 'src/components-value/entities/components-value.entity';
 import { Component } from 'src/components/entities/component.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -16,4 +17,11 @@ export class Collection {
   @OneToMany(() => Component, (component) => component.collection)
   @Field((type) => [Component])
   components: Component[];
+
+  @OneToMany(
+    () => ComponentsValue,
+    (componentsValue) => componentsValue.collection,
+  )
+  @Field((type) => [ComponentsValue])
+  componentsValue: ComponentsValue[];
 }

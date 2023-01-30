@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from 'db/data_source';
 import { ComponentsModule } from './components/components.module';
 import { CollectionModule } from './collection/collection.module';
+import { ComponentsValueModule } from './components-value/components-value.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CollectionModule } from './collection/collection.module';
     ProductModule,
     ComponentsModule,
     CollectionModule,
+    ComponentsValueModule,
   ],
 })
 export class AppModule {}

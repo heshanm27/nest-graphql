@@ -1,6 +1,75 @@
 import { Injectable } from '@nestjs/common'; 
+import { InjectRepository } from '@nestjs/typeorm/dist/common';
+import { Repository } from 'typeorm';
+import {
+  BadRequestException,
+  RequestTimeoutException,
+} from '@nestjs/common/exceptions';
+import { {{properCase collectionName}}FilterInput } from './dto/filter_{{lowerCase     collectionName}}_input';
+import { Create{{properCase collectionName}}Input } from './dto/create-{{lowerCase collectionName}}.input';
+import { Update{{properCase collectionName}}Input } from './dto/update-{{lowerCase collectionName}}.input';
+import { {{properCase collectionName}} } from './entities/{{lowerCase collectionName}}.entity';
+
+
+
+
+
 
 @Injectable()
- export class {{properCase collectionName}}Service {
+export class {{properCase collectionName}}Service {
+
+    constructor(
+    @InjectRepository({{properCase collectionName}})
+    private {{properCase collectionName}}Repository: Repository<{{properCase collectionName}}>,
+  ) {}
+
+async create(createProductInput: Create{{properCase collectionName}}Input): Promise<{{properCase collectionName}}> {
+    try {
+      const product = await this.{{properCase collectionName}}Repository.create(createProductInput);
+      return await this.{{properCase collectionName}}Repository.save(product);
+    } catch (error) {
+      throw new RequestTimeoutException();
+    }
+  }
+
+async findAll(filteroptions: {{properCase collectionName}}FilterInput): Promise<{{properCase collectionName}}[]> {
+    return await this.{{properCase collectionName}}Repository
+      .createQueryBuilder('product')
+      .orderBy(filteroptions.sort)
+      .limit(filteroptions.limit)
+      .offset(filteroptions.page * filteroptions.limit)
+      .getMany();
+  }
+
+async findOne(id: number): Promise<{{properCase collectionName}}> {
+    const product = await this.{{properCase collectionName}}Repository.findOneBy({ id });
+    if (!product)
+      throw new BadRequestException(`Product with id ${id} not found`);
+    return product;
+  }
+
+async update(
+    id: number,
+    updateProductInput: Update{{properCase collectionName}}Input,
+  ): Promise<{{properCase collectionName}}> {
+    const foundProduct = await this.{{properCase collectionName}}Repository.findOneBy({ id });
+
+    if (!foundProduct)
+      throw new BadRequestException(`Product with id ${id} not found`);
+
+    await this.{{properCase collectionName}}Repository.update(id, updateProductInput);
+    return await this.{{properCase collectionName}}Repository.findOneBy({ id });
+  }
+
+async remove(id: number): Promise<{{properCase collectionName}}> {
+    try {
+      const product = await this.{{properCase collectionName}}Repository.findOneBy({ id });
+      if (!product) throw new BadRequestException('Product not found');
+      const deleted = await this.{{properCase collectionName}}Repository.delete({ id });
+      return product;
+    } catch (error) {
+      throw new BadRequestException(`{{properCase collectionName}} with id ${id} not found`);
+    }
+  }
 
  }

@@ -1,0 +1,49 @@
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { {{properCase collectionName}}Service } from './{{lowerCase collectionName}}.service';
+import { {{properCase collectionName}} } from './entities/{{lowerCase collectionName}}.entity';
+
+import { {{properCase collectionName}}FilterInput } from './dto/filter_{{lowerCase collectionName}}_input';
+import { Create{{properCase collectionName}}Input } from './dto/create-{{lowerCase collectionName}}.input';
+import { Update{{properCase collectionName}}Input } from './dto/update-{{lowerCase collectionName}}.input';
+
+
+
+@Resolver(() => {{properCase collectionName}})
+export class {{properCase collectionName}}Resolver {
+  constructor(private readonly {{lowerCase collectionName}}Service: {{properCase collectionName}}Service) {}
+
+  @Mutation(() => {{properCase collectionName}})
+  async create{{properCase collectionName}}(
+    @Args('create{{properCase collectionName}}Input') create{{properCase collectionName}}Input: Create{{properCase collectionName}}Input,
+  ): Promise<{{properCase collectionName}}> {
+    return await this.{{lowerCase collectionName}}Service.create(create{{properCase collectionName}}Input);
+  }
+
+  @Query(() => [{{properCase collectionName}}], { name: 'findAll{{properCase collectionName}}' })
+  async findAll(
+    @Args('FilterOptions') filteroptions: {{properCase collectionName}}FilterInput,
+  ): Promise<{{properCase collectionName}}[]> {
+    return this.{{lowerCase collectionName}}Service.findAll(filteroptions);
+  }
+
+  @Query(() => {{properCase collectionName}}, { name: 'findOne{{properCase collectionName}}' })
+  findOne(@Args('id', { type: () => Int }) id: number): Promise<{{properCase collectionName}}> {
+    return this.{{lowerCase collectionName}}Service.findOne(id);
+  }
+
+
+  @Mutation(() => {{properCase collectionName}})
+  update{{properCase collectionName}}(
+    @Args('update{{properCase collectionName}}Input') update{{properCase collectionName}}Input: Update{{properCase collectionName}}Input,
+  ): Promise<{{properCase collectionName}}> {
+    return this.{{lowerCase collectionName}}Service.update(
+      update{{properCase collectionName}}Input.id,
+      update{{properCase collectionName}}Input,
+    );
+  }
+
+  @Mutation(() => {{properCase collectionName}})
+  removeProduct(@Args('id', { type: () => Int }) id: number): Promise<{{properCase collectionName}}> {
+    return this.{{lowerCase collectionName}}Service.remove(id);
+  }
+}

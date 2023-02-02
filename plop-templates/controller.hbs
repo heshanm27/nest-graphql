@@ -1,7 +1,0 @@
-import { Controller } from '@nestjs/common'; 
-import { {{properCase collectionName}}Service } from './{{collectionName}}.service';
-
-
-@Controller('{{collectionName}}') 
-export class {{properCase collectionName}}Controller { 
-    constructor(private readonly {{collectionName}}Service:{{properCase collectionName}}Service) { } }

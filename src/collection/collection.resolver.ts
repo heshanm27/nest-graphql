@@ -13,7 +13,6 @@ import { CreateCollectionInput } from './dto/create-collection.input';
 import { UpdateCollectionInput } from './dto/update-collection.input';
 import { ComponentsService } from 'src/components/components.service';
 import { Component } from 'src/components/entities/component.entity';
-import { MyModule } from 'src/dynamic_collection/dynamic_module.module';
 import { exec } from 'child_process';
 import { dirname } from 'path';
 @Resolver(() => Collection)

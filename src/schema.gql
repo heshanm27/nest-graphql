@@ -48,7 +48,8 @@ type Query {
   searchProduct(search: ProductSearchInput!): [Product!]!
   findAllComponents: [Component!]!
   findOnecomponent(id: Int!): Component!
-  collectionFindAll: [Collection!]!
+  createdynamicCollection(collectionName: String!): Boolean!
+  FindAllCollection: [Collection!]!
   collectionFindOne(id: Int!): Collection!
   GetCollectionData(id: Int!): ComponentsValue!
 }
@@ -89,6 +90,7 @@ type Mutation {
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
   createCollection(createCollectionInput: CreateCollectionInput!): Collection!
+  createDynamicModule(createCollectionInput: CreateCollectionInput!): Collection!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
   removeCollection(id: Int!): Collection!
   createComponentsValue(createComponentsValueInput: CreateComponentsValueInput!): ComponentsValue!
@@ -118,7 +120,7 @@ input UpdateProductInput {
 }
 
 input CreateComponentInput {
-  type: HTMLInputType = TEXT
+  type: HTMLInputType! = TEXT
   name: String!
   collectionId: Int!
   componentId: String

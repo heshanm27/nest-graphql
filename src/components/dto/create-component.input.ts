@@ -27,10 +27,8 @@ registerEnumType(HTMLInputTypes, {
 
 @InputType()
 export class CreateComponentInput {
-  @IsString()
   @IsNotEmpty()
   @Field(() => HTMLInputTypes, {
-    nullable: true,
     defaultValue: HTMLInputTypes.TEXT,
   })
   type: string;

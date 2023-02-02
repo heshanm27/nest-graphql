@@ -13,7 +13,9 @@ import { CreateCollectionInput } from './dto/create-collection.input';
 import { UpdateCollectionInput } from './dto/update-collection.input';
 import { ComponentsService } from 'src/components/components.service';
 import { Component } from 'src/components/entities/component.entity';
-
+import { MyModule } from 'src/dynamic_collection/dynamic_module.module';
+import { exec } from 'child_process';
+import { dirname } from 'path';
 @Resolver(() => Collection)
 export class CollectionResolver {
   constructor(
@@ -28,7 +30,31 @@ export class CollectionResolver {
     return this.collectionService.create(createCollectionInput);
   }
 
-  @Query(() => [Collection], { name: 'collectionFindAll' })
+  @Query(() => Boolean, { name: 'createdynamicCollection' })
+  createDynamicCollection(@Args('collectionName') collectionName: string) {
+    console.log('CANCELLED');
+    // const module = MyModule.forRoot('blog');
+
+    // module.providers[0];
+    console.log(__dirname);
+    exec(`yarn gen ${collectionName} `, (err, stdout, stderr) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      return true;
+    });
+    return true;
+  }
+
+  @Mutation(() => Collection)
+  createDynamicModule(
+    @Args('createCollectionInput') createCollectionInput: CreateCollectionInput,
+  ) {
+    return this.collectionService.create(createCollectionInput);
+  }
+
+  @Query(() => [Collection], { name: 'FindAllCollection' })
   findAll() {
     return this.collectionService.findAll();
   }

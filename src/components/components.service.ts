@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateComponentInput } from './dto/create-component.input';
+import {
+  CreateComponentInput,
+  HTMLInputTypes,
+} from './dto/create-component.input';
 import { UpdateComponentInput } from './dto/update-component.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Component } from './entities/component.entity';
@@ -45,6 +48,10 @@ export class ComponentsService {
   async findAll(): Promise<Component[]> {
     return await this.componentRepository.find();
   }
+
+  //  findComponentTypes():HTMLInputTypes{
+  //   return
+  // }
 
   async findComponentsByCollectionId(id: number): Promise<Component[]> {
     return await this.componentRepository

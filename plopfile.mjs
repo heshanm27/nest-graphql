@@ -1,5 +1,5 @@
 export default function plopFunc(plop) {
-  plop.setGenerator('component', {
+  plop.setGenerator('module', {
     description: 'Create a NestJS module',
     prompts: [
       {
@@ -49,6 +49,49 @@ export default function plopFunc(plop) {
         type: 'add',
         path: 'src/{{collectionName}}/entities/{{collectionName}}.entity.ts',
         templateFile: './plop-templates/entity.hbs',
+        skipIfExists: true,
+      },
+      {
+        type: 'modify',
+        path: 'src/app.module.ts',
+        pattern: /()/,
+        template:
+          "import { {{properCase collectionName}}Module } from './{{lowerCase collectionName}}/{{lowerCase collectionName}}.module'\n$1",
+        skipIfExists: true,
+      },
+      {
+        type: 'modify',
+        path: 'src/app.module.ts',
+        pattern: /(imports: \[)/,
+        template: '$1\n    {{properCase collectionName}}Module,',
+        skipIfExists: true,
+      },
+    ],
+  });
+
+  plop.setGenerator('import', {
+    description: 'Add an import for a new module in the app.module.ts file',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the name of the module?',
+      },
+    ],
+    actions: [
+      {
+        type: 'modify',
+        path: 'src/app.module.ts',
+        pattern: /()/,
+        template:
+          "import { {{properCase name}}Module } from './{{lowerCase name}}/{{lowerCase name}}.module'\n$1",
+        skipIfExists: true,
+      },
+      {
+        type: 'modify',
+        path: 'src/app.module.ts',
+        pattern: /(imports: \[)/,
+        template: '$1\n    {{properCase name}}Module,',
         skipIfExists: true,
       },
     ],

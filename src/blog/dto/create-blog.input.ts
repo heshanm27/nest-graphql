@@ -8,17 +8,17 @@ import {
 } from 'class-validator';
 
 @InputType()
-export class Create{{properCase collectionName}}Input {
+export class CreateBlogInput {
   @IsString()
   @MinLength(6)
   @IsNotEmpty()
   @Field()
-  {{lowerCase collectionName}}Name: string;
+  blogName: string;
 
   @IsString()
   @MinLength(6)
   @Field()
-{{lowerCase collectionName}}Code: string;
+blogCode: string;
 
   @IsString()
   @IsOptional()

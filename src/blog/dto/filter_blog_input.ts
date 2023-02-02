@@ -8,20 +8,11 @@ import {
 } from 'class-validator';
 
 
-{{!-- 
-enum {{properCase collectionName}}Sort {
-  ASC = 'ASC',
-  DESC = 'DESC',
-} --}}
 
 
 
-{{!-- registerEnumType({{properCase collectionName}}Sort, {
-  name: 'Sort',
-  description: 'Sort Options',
-}); --}}
 @InputType()
-export class {{properCase collectionName}}FilterInput {
+export class BlogFilterInput {
   @IsOptional()
   @Field({ nullable: true, defaultValue: 1 })
   page: number;

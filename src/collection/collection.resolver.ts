@@ -14,7 +14,7 @@ import { UpdateCollectionInput } from './dto/update-collection.input';
 import { ComponentsService } from 'src/components/components.service';
 import { Component } from 'src/components/entities/component.entity';
 import { exec } from 'child_process';
-import { dirname } from 'path';
+
 @Resolver(() => Collection)
 export class CollectionResolver {
   constructor(
@@ -35,8 +35,8 @@ export class CollectionResolver {
     // const module = MyModule.forRoot('blog');
 
     // module.providers[0];
-    console.log(__dirname);
-    exec(`yarn gen ${collectionName} `, (err, stdout, stderr) => {
+
+    exec(`npm run gen ${collectionName} `, (err, stdout, stderr) => {
       if (err) {
         console.error(err);
         return;

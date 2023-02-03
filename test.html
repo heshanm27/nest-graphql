@@ -1,0 +1,46 @@
+<html>
+  <body>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://accounts.google.com/gsi/style" async defer></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jsonwebtoken/9.0.0/decode.min.js"
+      integrity="sha512-GpSRYoyqsNcWKPthJkC3EuuxAfzKu8eJgWU58GYH6pvRe1IaRjIJmY6a7eTLIfux4vsy0tkuQ/WgAxtR66siUw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      function decodeJWT(string) {
+        var arr = string.split('.');
+        return {
+          header: JSON.parse(atob(arr[0])),
+          payload: JSON.parse(atob(arr[1])),
+          secret: arr[2],
+        };
+      }
+      function handleCredentialResponse(response) {
+        console.log('Encoded JWT ID token: ' + response.credential);
+
+        var responsePayload = decodeJWT(response.credential);
+        console.log('ID: ' + responsePayload.sub);
+        console.log('Full Name: ' + responsePayload.name);
+        console.log('Given Name: ' + responsePayload.given_name);
+        console.log('Family Name: ' + responsePayload.family_name);
+        console.log('Image URL: ' + responsePayload.picture);
+        console.log('Email: ' + responsePayload.email);
+      }
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id:
+            '672898370098-69gje99rurtri3hnj2f6976iur7fl1a5.apps.googleusercontent.com',
+          callback: handleCredentialResponse,
+        });
+        google.accounts.id.renderButton(
+          document.getElementById('buttonDiv'),
+          { theme: 'outline', size: 'large' }, // customization attributes
+        );
+        google.accounts.id.prompt(); // also display the One Tap dialog
+      };
+    </script>
+    <div id="buttonDiv"></div>
+  </body>
+</html>

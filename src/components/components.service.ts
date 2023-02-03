@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Component } from './entities/component.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common/exceptions';
+import { exec } from 'child_process';
 
 @Injectable()
 export class ComponentsService {
@@ -18,6 +19,24 @@ export class ComponentsService {
 
   async create(createComponentInput: CreateComponentInput) {
     try {
+      const testObject = {
+        name: 'blogName',
+        type: 'string',
+      };
+
+      exec(
+        `plop --plopfile plopfile.mjs testObject --data "{\"results\":" + ${JSON.stringify(
+          testObject,
+        )} + "}"`,
+        (err, stdout, stderr) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          return true;
+        },
+      );
+
       console.log({
         name: createComponentInput.name.toLowerCase(),
         ...createComponentInput,

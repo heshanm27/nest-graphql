@@ -69,30 +69,45 @@ export default function plopFunc(plop) {
     ],
   });
 
-  plop.setGenerator('import', {
-    description: 'Add an import for a new module in the app.module.ts file',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is the name of the module?',
-      },
-    ],
+  // plop.setGenerator('import', {
+  //   description: 'Add an import for a new module in the app.module.ts file',
+  //   prompts: [
+  //     {
+  //       type: 'input',
+  //       name: 'name',
+  //       message: 'What is the name of the module?',
+  //     },
+  //   ],
+  //   actions: [
+  //     {
+  //       type: 'modify',
+  //       path: 'src/app.module.ts',
+  //       pattern: /()/,
+  //       template:
+  //         "import { {{properCase name}}Module } from './{{lowerCase name}}/{{lowerCase name}}.module'\n$1",
+  //       skipIfExists: true,
+  //     },
+  //     {
+  //       type: 'modify',
+  //       path: 'src/app.module.ts',
+  //       pattern: /(imports: \[)/,
+  //       template: '$1\n    {{properCase name}}Module,',
+  //       skipIfExists: true,
+  //     },
+  //   ],
+  // });
+
+  plop.setGenerator('testObject', {
+    description: 'Create a test object',
+    prompts: [],
     actions: [
       {
-        type: 'modify',
-        path: 'src/app.module.ts',
-        pattern: /()/,
-        template:
-          "import { {{properCase name}}Module } from './{{lowerCase name}}/{{lowerCase name}}.module'\n$1",
-        skipIfExists: true,
-      },
-      {
-        type: 'modify',
-        path: 'src/app.module.ts',
-        pattern: /(imports: \[)/,
-        template: '$1\n    {{properCase name}}Module,',
-        skipIfExists: true,
+        type: 'add',
+        path: 'src/testPlop/testObjectEntity.ts',
+        templateFile: './plop-templates/testObject/objectentity.hbs',
+        data: (answers, data) => {
+          console.log(data);
+        },
       },
     ],
   });

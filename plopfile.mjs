@@ -1,4 +1,7 @@
-export default function plopFunc(plop) {
+export default function plopFunc(
+  /** @type {import('plop').NodePlopAPI} */
+  plop,
+) {
   plop.setGenerator('module', {
     description: 'Create a NestJS module',
     prompts: [
@@ -99,14 +102,28 @@ export default function plopFunc(plop) {
 
   plop.setGenerator('testObject', {
     description: 'Create a test object',
-    prompts: [],
+    prompts: [
+      {
+        type: 'input',
+        name: 'collectionName',
+        message: 'What is the collection name?',
+      },
+      {
+        type: 'input',
+        name: 'result',
+        message: 'What is the object name?',
+      },
+    ],
     actions: [
       {
         type: 'add',
         path: 'src/testPlop/testObjectEntity.ts',
         templateFile: './plop-templates/testObject/objectentity.hbs',
-        data: (answers, data) => {
-          console.log(data);
+        data: {
+          result: {
+            name: 'test',
+            type: 'string',
+          },
         },
       },
     ],

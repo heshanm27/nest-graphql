@@ -2,6 +2,27 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Blog {
+  id: Int!
+  blogName: String!
+  blogCode: String!
+  description: String!
+  price: Float!
+  starRating: Float!
+  imageUrl: String!
+}
+
+type Doc {
+  id: Int!
+  docName: String!
+  docCodeType: String!
+  description: String!
+  price: Float!
+  starRating: Float!
+  rebview: Int!
+  imageUrl: String!
+}
+
 type Product {
   id: Int!
   productName: String!
@@ -43,15 +64,32 @@ type Component {
 }
 
 type Query {
+  findAllBlog(FilterOptions: BlogFilterInput!): [Blog!]!
+  findOneBlog(id: Int!): Blog!
+  findAllDoc(FilterOptions: DocFilterInput!): [Doc!]!
+  findOneDoc(id: Int!): Doc!
   findAllProduct(FilterOptions: ProductFilterInput!): [Product!]!
   findOneProduct(id: Int!): Product!
   searchProduct(search: ProductSearchInput!): [Product!]!
   findAllComponents: [Component!]!
+  findAllComponentsByCollection(collectionId: Float!): Boolean!
   findOnecomponent(id: Int!): Component!
   createdynamicCollection(collectionName: String!): Boolean!
   FindAllCollection: [Collection!]!
   collectionFindOne(id: Int!): Collection!
   GetCollectionData(id: Int!): ComponentsValue!
+}
+
+input BlogFilterInput {
+  page: Float = 1
+  limit: Float = 10
+  sort: String = "ASC"
+}
+
+input DocFilterInput {
+  page: Float = 1
+  limit: Float = 10
+  sort: String = "ASC"
 }
 
 input ProductFilterInput {
@@ -83,9 +121,13 @@ input ProductSearchInput {
 }
 
 type Mutation {
+  createBlog(createBlogInput: CreateBlogInput!): Blog!
+  updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
+  removeProduct(id: Int!): Product!
+  createDoc(createDocInput: CreateDocInput!): Doc!
+  updateDoc(updateDocInput: UpdateDocInput!): Doc!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
-  removeProduct(id: Int!): Product!
   createComponent(createComponentInput: CreateComponentInput!): Component!
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
@@ -96,6 +138,44 @@ type Mutation {
   createComponentsValue(createComponentsValueInput: CreateComponentsValueInput!): ComponentsValue!
   updateComponentsValue(updateComponentsValueInput: UpdateComponentsValueInput!): ComponentsValue!
   removeComponentsValue(id: Int!): ComponentsValue!
+}
+
+input CreateBlogInput {
+  blogName: String!
+  blogCode: String!
+  description: String
+  price: Float!
+  starRating: Float
+  imageUrl: String
+}
+
+input UpdateBlogInput {
+  id: Float!
+  productName: String
+  productCode: String
+  description: String
+  price: Float
+  starRating: Float
+  imageUrl: String
+}
+
+input CreateDocInput {
+  docName: String!
+  docCode: String!
+  description: String
+  price: Float!
+  starRating: Float
+  imageUrl: String
+}
+
+input UpdateDocInput {
+  id: Float!
+  productName: String
+  productCode: String
+  description: String
+  price: Float
+  starRating: Float
+  imageUrl: String
 }
 
 input CreateProductInput {

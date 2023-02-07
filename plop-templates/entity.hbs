@@ -8,27 +8,5 @@ export class {{properCase collectionName}} {
   @Field((type) => Int)
   id: number;
 
-  @Column()
-  @Field()
-  {{lowerCase collectionName}}Name: string;
 
-  @Column({ unique: true })
-  @Field()
-  {{lowerCase collectionName}}Code: string;
-
-  @Column()
-  @Field()
-  description: string;
-
-  @Column({ default: 0 })
-  @Field((type) => Float)
-  price: number;
-
-  @Column({ default: 0 })
-  @Field((type) => Float)
-  starRating: number;
-
-  @Column()
-  @Field()
-  imageUrl: string;
 }

@@ -9,38 +9,38 @@ import { Component } from './entities/component.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common/exceptions';
 import { exec } from 'child_process';
+import { Collection } from 'src/collection/entities/collection.entity';
 
 @Injectable()
 export class ComponentsService {
   constructor(
     @InjectRepository(Component)
     private componentRepository: Repository<Component>,
+    @InjectRepository(Collection)
+    private readonly collectionRepository: Repository<Collection>,
   ) {}
 
   async create(createComponentInput: CreateComponentInput) {
     try {
-      const testObject = {
-        name: 'blogName',
-        type: 'string',
-      };
-
-      exec(
-        `plop --plopfile plopfile.mjs testObject --data "{\"results\":" + ${JSON.stringify(
-          testObject,
-        )} + "}"`,
-        (err, stdout, stderr) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          return true;
-        },
-      );
-
-      console.log({
-        name: createComponentInput.name.toLowerCase(),
-        ...createComponentInput,
+      const collection = await this.collectionRepository.findOneBy({
+        id: createComponentInput.collectionId,
       });
+
+      if (!collection) throw new BadRequestException('Collection not found');
+
+      // exec(
+      //   `plop --plopfile plopfile.mjs testObject --data "{\"results\":" + ${JSON.stringify(
+      //     testObject,
+      //   )} + "}"`,
+      //   (err, stdout, stderr) => {
+      //     if (err) {
+      //       console.error(err);
+      //       return;
+      //     }
+      //     return true;
+      //   },
+      // );
+
       const product = await this.componentRepository.create({
         componentId: createComponentInput.componentId
           ? createComponentInput.componentId

@@ -48,6 +48,7 @@ type Query {
   searchProduct(search: ProductSearchInput!): [Product!]!
   findAllComponents: [Component!]!
   findOnecomponent(id: Int!): Component!
+  dynamiComponentCollection(id: Int!): Boolean!
   createdynamicCollection(collectionName: String!): Boolean!
   FindAllCollection: [Collection!]!
   collectionFindOne(id: Int!): Collection!

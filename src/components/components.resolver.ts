@@ -12,7 +12,8 @@ import { Component } from './entities/component.entity';
 import { CreateComponentInput } from './dto/create-component.input';
 import { UpdateComponentInput } from './dto/update-component.input';
 import { UsePipes } from '@nestjs/common/decorators/core/use-pipes.decorator';
-
+import { Plop } from 'plop';
+import { exec } from 'child_process';
 @Resolver(() => Component)
 export class ComponentsResolver {
   constructor(private readonly componentsService: ComponentsService) {}
@@ -34,6 +35,26 @@ export class ComponentsResolver {
     return this.componentsService.findOne(id);
   }
 
+  @Query(() => Boolean, { name: 'dynamiComponentCollection' })
+  async findComponentsByCollection(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<boolean> {
+    const collection =
+      await this.componentsService.findComponentsByCollectionId(id);
+
+    exec(
+      `plop --plopfile plopfile.mjs test blog ${JSON.stringify(collection)} `,
+      (err, stdout, stderr) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        return true;
+      },
+    );
+
+    return true;
+  }
   @Mutation(() => Component)
   updateComponent(
     @Args('updateComponentInput') updateComponentInput: UpdateComponentInput,

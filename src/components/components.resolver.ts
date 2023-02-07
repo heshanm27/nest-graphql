@@ -12,8 +12,8 @@ import { Component } from './entities/component.entity';
 import { CreateComponentInput } from './dto/create-component.input';
 import { UpdateComponentInput } from './dto/update-component.input';
 import { UsePipes } from '@nestjs/common/decorators/core/use-pipes.decorator';
-import { Plop } from 'plop';
 import { exec } from 'child_process';
+
 @Resolver(() => Component)
 export class ComponentsResolver {
   constructor(private readonly componentsService: ComponentsService) {}
@@ -28,6 +28,27 @@ export class ComponentsResolver {
   @Query(() => [Component], { name: 'findAllComponents' })
   findAll(): Promise<Component[]> {
     return this.componentsService.findAll();
+  }
+
+  @Query(() => Boolean, { name: 'findAllComponentsByCollection' })
+  async findAllByCollection(@Args('collectionId') collectionId: number) {
+    const collection =
+      await this.componentsService.findComponentsByCollectionId(collectionId);
+    console.log(collection);
+    exec(
+      `plop --plopfile plopfile.mjs testObject --collectionName test --results resultTest
+      )}`,
+      (err, stdout, stderr) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        return true;
+      },
+    );
+
+    console.log(JSON.stringify(collection));
+    return true;
   }
 
   @Query(() => Component, { name: 'findOnecomponent' })

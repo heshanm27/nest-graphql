@@ -1,11 +1,4 @@
-/// #  NodePlopAPI
-
-let data = [];
-export default function plopFunc(
-  /**@type {import('plop').NodePlopAPI} */
-  plop,
-) {
-  plop.setActionType('addMany', (answers, config, plop) => {});
+export default function plopFunc(plop) {
   plop.setGenerator('module', {
     description: 'Create a NestJS module',
     prompts: [
@@ -76,27 +69,45 @@ export default function plopFunc(
     ],
   });
 
-  plop.setGenerator('createEntity', {
-    description: 'Add Entity',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is the name of the module?',
-      },
-      {
-        type: 'input',
-        name: 'entity',
-        message: 'What is the collection name?',
-      },
-    ],
+  // plop.setGenerator('import', {
+  //   description: 'Add an import for a new module in the app.module.ts file',
+  //   prompts: [
+  //     {
+  //       type: 'input',
+  //       name: 'name',
+  //       message: 'What is the name of the module?',
+  //     },
+  //   ],
+  //   actions: [
+  //     {
+  //       type: 'modify',
+  //       path: 'src/app.module.ts',
+  //       pattern: /()/,
+  //       template:
+  //         "import { {{properCase name}}Module } from './{{lowerCase name}}/{{lowerCase name}}.module'\n$1",
+  //       skipIfExists: true,
+  //     },
+  //     {
+  //       type: 'modify',
+  //       path: 'src/app.module.ts',
+  //       pattern: /(imports: \[)/,
+  //       template: '$1\n    {{properCase name}}Module,',
+  //       skipIfExists: true,
+  //     },
+  //   ],
+  // });
+
+  plop.setGenerator('testObject', {
+    description: 'Create a test object',
+    prompts: [],
     actions: [
       {
-        type: 'modify',
-        path: 'src/{{name}}/entities/{{name}}.entity.ts',
-        pattern: /(id: number\;)/g,
-        template: `$1\n  @Field()\n  @Column()\n {{entity.name}}: {{entity.type}} \n{{entity}}`,
-        skipIfExists: true,
+        type: 'add',
+        path: 'src/testPlop/testObjectEntity.ts',
+        templateFile: './plop-templates/testObject/objectentity.hbs',
+        data: (answers, data) => {
+          console.log(data);
+        },
       },
     ],
   });

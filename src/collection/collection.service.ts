@@ -4,6 +4,7 @@ import { UpdateCollectionInput } from './dto/update-collection.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Collection } from './entities/collection.entity';
 import { Repository } from 'typeorm';
+import { exec } from 'child_process';
 
 @Injectable()
 export class CollectionService {
@@ -16,6 +17,15 @@ export class CollectionService {
     try {
       const collection = this.collectionRepository.create(
         createCollectionInput,
+      );
+      exec(
+        `npm run gen ${createCollectionInput.collectionName} `,
+        (err, stdout, stderr) => {
+          if (err) {
+            return;
+          }
+          return true;
+        },
       );
       return await this.collectionRepository.save(collection);
     } catch (error) {

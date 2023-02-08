@@ -10,33 +10,5 @@ export class Update{{properCase collectionName}}Input  {
   @Field()
   id: number;
 
-  @IsString()
-  @IsOptional()
-  @Field({ nullable: true })
-  productName: string;
 
-  @IsString()
-  @IsOptional()
-  @Field({ nullable: true })
-  productCode: string;
-
-  @IsString()
-  @IsOptional()
-  @Field({ nullable: true })
-  description: string;
-
-  @IsNumber()
-  @IsOptional()
-  @Field({ nullable: true })
-  price: number;
-
-  @IsNumber()
-  @IsOptional()
-  @Field({ nullable: true })
-  starRating: number;
-
-  @IsString()
-  @IsOptional()
-  @Field({ nullable: true })
-  imageUrl: string;
 }

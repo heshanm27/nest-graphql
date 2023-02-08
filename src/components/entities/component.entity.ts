@@ -20,11 +20,11 @@ export class Component {
   @Field()
   type: string;
 
-  @Column({ unique: true })
+  @Column()
   @Field()
   name: string;
 
-  @Column({ unique: true })
+  @Column()
   @Field({ nullable: true })
   componentId: string;
 

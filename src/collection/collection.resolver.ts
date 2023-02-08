@@ -31,11 +31,6 @@ export class CollectionResolver {
 
   @Query(() => Boolean, { name: 'createdynamicCollection' })
   createDynamicCollection(@Args('collectionName') collectionName: string) {
-    console.log('CANCELLED');
-    // const module = MyModule.forRoot('blog');
-
-    // module.providers[0];
-
     exec(`npm run gen ${collectionName} `, (err, stdout, stderr) => {
       if (err) {
         console.error(err);

@@ -9,35 +9,6 @@ import {
 
 @InputType()
 export class Create{{properCase collectionName}}Input {
-  @IsString()
-  @MinLength(6)
-  @IsNotEmpty()
-  @Field()
-  {{lowerCase collectionName}}Name: string;
-
-  @IsString()
-  @MinLength(6)
-  @Field()
-{{lowerCase collectionName}}Code: string;
-
-  @IsString()
-  @IsOptional()
-  @Field({ nullable: true })
-  description: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  @Field()
-  price: number;
-
-  @IsNumber()
-  @IsOptional()
-  @Field({ nullable: true })
-  starRating: number;
-
-  @IsString()
-  @IsOptional()
-  @Field({ nullable: true })
-  imageUrl: string;
+ 
 
 }

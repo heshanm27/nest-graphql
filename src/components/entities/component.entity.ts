@@ -18,7 +18,11 @@ export class Component {
 
   @Column()
   @Field()
-  type: string;
+  htmlInputType: string;
+
+  @Column()
+  @Field()
+  dataType: string;
 
   @Column()
   @Field()

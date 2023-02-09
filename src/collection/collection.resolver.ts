@@ -29,25 +29,6 @@ export class CollectionResolver {
     return this.collectionService.create(createCollectionInput);
   }
 
-  @Query(() => Boolean, { name: 'createdynamicCollection' })
-  createDynamicCollection(@Args('collectionName') collectionName: string) {
-    exec(`npm run gen ${collectionName} `, (err, stdout, stderr) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      return true;
-    });
-    return true;
-  }
-
-  @Mutation(() => Collection)
-  createDynamicModule(
-    @Args('createCollectionInput') createCollectionInput: CreateCollectionInput,
-  ) {
-    return this.collectionService.create(createCollectionInput);
-  }
-
   @Query(() => [Collection], { name: 'FindAllCollection' })
   findAll() {
     return this.collectionService.findAll();
@@ -60,7 +41,6 @@ export class CollectionResolver {
 
   @ResolveField(() => [Component])
   async components(@Parent() collection: Collection): Promise<Component[]> {
-    // console.log('collection.components', collection.components);
     return await this.componentsService.findComponentsByCollectionId(
       collection.id,
     );

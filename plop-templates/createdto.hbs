@@ -10,5 +10,10 @@ import {
 @InputType()
 export class Create{{properCase collectionName}}Input {
  
+@Field({
+ nullable: true,
+})
+@IsString()
+id: number;
 
 }

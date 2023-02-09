@@ -13,6 +13,7 @@ import { CreateComponentInput } from './dto/create-component.input';
 import { UpdateComponentInput } from './dto/update-component.input';
 import { UsePipes } from '@nestjs/common/decorators/core/use-pipes.decorator';
 import { exec } from 'child_process';
+import { runCommand } from 'src/util/command.util';
 
 @Resolver(() => Component)
 export class ComponentsResolver {
@@ -30,52 +31,11 @@ export class ComponentsResolver {
     return this.componentsService.findAll();
   }
 
-  @Query(() => Boolean, { name: 'findAllComponentsByCollection' })
-  async findAllByCollection(@Args('collectionId') collectionId: number) {
-    const collection =
-      await this.componentsService.findComponentsByCollectionId(collectionId);
-    console.log(collection);
-    exec(
-      `plop --plopfile plopfile.mjs testObject --collectionName test --results resultTest
-      )}`,
-      (err, stdout, stderr) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        return true;
-      },
-    );
-
-    console.log(JSON.stringify(collection));
-    return true;
-  }
-
   @Query(() => Component, { name: 'findOnecomponent' })
   findOne(@Args('id', { type: () => Int }) id: number): Promise<Component> {
     return this.componentsService.findOne(id);
   }
 
-  @Query(() => Boolean, { name: 'dynamiComponentCollection' })
-  async findComponentsByCollection(
-    @Args('id', { type: () => Int }) id: number,
-  ): Promise<boolean> {
-    const collection =
-      await this.componentsService.findComponentsByCollectionId(id);
-
-    exec(
-      `plop --plopfile plopfile.mjs test blog ${JSON.stringify(collection)} `,
-      (err, stdout, stderr) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        return true;
-      },
-    );
-
-    return true;
-  }
   @Mutation(() => Component)
   updateComponent(
     @Args('updateComponentInput') updateComponentInput: UpdateComponentInput,

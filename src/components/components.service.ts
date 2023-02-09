@@ -28,20 +28,14 @@ export class ComponentsService {
       });
 
       if (!collection) throw new BadRequestException('Collection not found');
-      console.log('collection', collection);
 
-      // exec(
-      //   `plop --plopfile plopfile.mjs testObject --data "{\"results\":" + ${JSON.stringify(
-      //     testObject,
-      //   )} + "}"`,
-      //   (err, stdout, stderr) => {
-      //     if (err) {
-      //       console.error(err);
-      //       return;
-      //     }
-      //     return true;
-      //   },
-      // );
+      const obj = {
+        name: createComponentInput.name,
+        type: createComponentInput.dataType,
+      };
+
+      const jsonObj = JSON.stringify(obj);
+      const changedObject = JSON.stringify(jsonObj);
 
       const product = await this.componentRepository.create({
         componentId: createComponentInput.componentId
@@ -53,10 +47,13 @@ export class ComponentsService {
         ...createComponentInput,
       });
       const savedProduct = await this.componentRepository.save(product);
-      await runCommand(
-        `plop --plopfile plopfile.mjs  addComponent ${collection.collectionName} {${savedProduct.name},${savedProduct.type}}`,
+      console.log(
+        `npm run gen:component ${collection.collectionName} ${changedObject}`,
       );
-      console.log('savedProduct', savedProduct);
+      await runCommand(
+        `npm run gen:component ${collection.collectionName} ${changedObject}`,
+      );
+
       return savedProduct;
     } catch (error) {
       console.log(error);
@@ -74,10 +71,6 @@ export class ComponentsService {
   async findAll(): Promise<Component[]> {
     return await this.componentRepository.find();
   }
-
-  //  findComponentTypes():HTMLInputTypes{
-  //   return
-  // }
 
   async findComponentsByCollectionId(id: number): Promise<Component[]> {
     return await this.componentRepository

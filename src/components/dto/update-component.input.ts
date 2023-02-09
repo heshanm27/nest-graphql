@@ -27,9 +27,15 @@ export class UpdateComponentInput {
   @IsNotEmpty()
   @Field(() => HTMLInputTypes, {
     nullable: true,
-    defaultValue: HTMLInputTypes.TEXT,
   })
-  type: string;
+  dataType: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Field(() => HTMLInputTypes, {
+    nullable: true,
+  })
+  htmlInputType: string;
 
   @IsString()
   @IsOptional()

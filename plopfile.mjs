@@ -6,8 +6,8 @@ export default function plopFunc(
 
   plop.setHelper('json', function (context) {
     const data = context.data.root.entity;
-    const jsObj = JSON.parse(data);
-    return `${jsObj.name} : ${jsObj.type}`;
+    const dataaParsed = JSON.parse(data);
+    return `${dataaParsed.name}: ${dataaParsed.type}`;
   });
 
   plop.setGenerator('addmodule', {
@@ -97,9 +97,9 @@ export default function plopFunc(
     actions: [
       {
         type: 'modify',
-        path: 'src/{{lowerCase name}}/entities/{{lowerCase name}}.entity.ts',
+        path: 'src/dynamic/{{lowerCase name}}/entities/{{lowerCase name}}.entity.ts',
         pattern: /(id: number\;)/g,
-        template: `$1\n \n@Field()\n @Column()\n {{json}} \n`,
+        template: `$1\n \n@Field()\n @Column()\n {{{json}}} \n`,
       },
     ],
   });

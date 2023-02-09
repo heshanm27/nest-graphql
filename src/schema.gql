@@ -34,7 +34,8 @@ type Collection {
 
 type Component {
   id: Int!
-  type: String!
+  htmlInputType: String!
+  dataType: String!
   name: String!
   componentId: String
   label: String
@@ -47,10 +48,7 @@ type Query {
   findOneProduct(id: Int!): Product!
   searchProduct(search: ProductSearchInput!): [Product!]!
   findAllComponents: [Component!]!
-  findAllComponentsByCollection(collectionId: Float!): Boolean!
   findOnecomponent(id: Int!): Component!
-  dynamiComponentCollection(id: Int!): Boolean!
-  createdynamicCollection(collectionName: String!): Boolean!
   FindAllCollection: [Collection!]!
   collectionFindOne(id: Int!): Collection!
   GetCollectionData(id: Int!): ComponentsValue!
@@ -92,7 +90,6 @@ type Mutation {
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
   createCollection(createCollectionInput: CreateCollectionInput!): Collection!
-  createDynamicModule(createCollectionInput: CreateCollectionInput!): Collection!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
   removeCollection(id: Int!): Collection!
   createComponentsValue(createComponentsValueInput: CreateComponentsValueInput!): ComponentsValue!
@@ -122,7 +119,8 @@ input UpdateProductInput {
 }
 
 input CreateComponentInput {
-  type: HTMLInputType! = TEXT
+  htmlInputType: HTMLInputType! = TEXT
+  dataType: DataType! = STRING
   name: String!
   collectionId: Int!
   componentId: String
@@ -141,10 +139,19 @@ enum HTMLInputType {
   CHECKBOX
 }
 
+"""Data Types """
+enum DataType {
+  STRING
+  NUMBER
+  BOOLEAN
+  DATE
+}
+
 input UpdateComponentInput {
   id: Int!
   collectionId: Int!
-  type: HTMLInputType = TEXT
+  dataType: HTMLInputType
+  htmlInputType: HTMLInputType
   name: String
   componenId: String
   label: String

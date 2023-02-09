@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Collection } from './entities/collection.entity';
 import { Repository } from 'typeorm';
 import { exec } from 'child_process';
+import { runCommand } from 'src/util/command.util';
 
 @Injectable()
 export class CollectionService {
@@ -15,17 +16,11 @@ export class CollectionService {
 
   async create(createCollectionInput: CreateCollectionInput) {
     try {
-      const collection = this.collectionRepository.create(
+      const collection = await this.collectionRepository.create(
         createCollectionInput,
       );
-      exec(
-        `npm run gen ${createCollectionInput.collectionName} `,
-        (err, stdout, stderr) => {
-          if (err) {
-            return;
-          }
-          return true;
-        },
+      const commandResult = await runCommand(
+        `npm run gen ${createCollectionInput.collectionName}`,
       );
       return await this.collectionRepository.save(collection);
     } catch (error) {

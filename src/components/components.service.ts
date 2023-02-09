@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common/exceptions';
 import { exec } from 'child_process';
 import { Collection } from 'src/collection/entities/collection.entity';
+import { runCommand } from 'src/util/command.util';
 
 @Injectable()
 export class ComponentsService {
@@ -27,6 +28,7 @@ export class ComponentsService {
       });
 
       if (!collection) throw new BadRequestException('Collection not found');
+      console.log('collection', collection);
 
       // exec(
       //   `plop --plopfile plopfile.mjs testObject --data "{\"results\":" + ${JSON.stringify(
@@ -50,7 +52,12 @@ export class ComponentsService {
           : createComponentInput.name,
         ...createComponentInput,
       });
-      return await this.componentRepository.save(product);
+      const savedProduct = await this.componentRepository.save(product);
+      await runCommand(
+        `plop --plopfile plopfile.mjs  addComponent ${collection.collectionName} {${savedProduct.name},${savedProduct.type}}`,
+      );
+      console.log('savedProduct', savedProduct);
+      return savedProduct;
     } catch (error) {
       console.log(error);
       if (error.code === 'ER_DUP_ENTRY')

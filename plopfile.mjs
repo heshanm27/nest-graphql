@@ -114,12 +114,12 @@ export default function plopFunc(
       },
     ],
     actions: [
-      {
-        type: 'modify',
-        path: 'src/app.module.ts',
-        pattern: new RegExp(`/name}})/g`),
-        template: '',
-      },
+      // {
+      //   type: 'modify',
+      //   path: 'src/app.module.ts',
+      //   pattern: new RegExp(`/name}})/g`),
+      //   template: '',
+      // },
       // {
       //   type: 'remove',
       //   path: 'src/{{name}}',

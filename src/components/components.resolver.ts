@@ -31,6 +31,13 @@ export class ComponentsResolver {
     return this.componentsService.findAll();
   }
 
+  @Query(() => [Component], { name: 'findAllComponentsByCollectionId' })
+  async findAllByCollectionId(
+    @Args('collectionID', { type: () => Int }) id: number,
+  ): Promise<Component[]> {
+    return await this.componentsService.findComponentsByCollectionId(id);
+  }
+
   @Query(() => Component, { name: 'findOnecomponent' })
   findOne(@Args('id', { type: () => Int }) id: number): Promise<Component> {
     return this.componentsService.findOne(id);

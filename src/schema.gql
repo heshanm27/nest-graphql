@@ -2,6 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Blog {
+  id: Int!
+  blograte: Float!
+  blogname: String!
+}
+
+type Movie {
+  id: Int!
+  movierate: Float!
+  moviename: String!
+}
+
 type Product {
   id: Int!
   productName: String!
@@ -44,14 +56,33 @@ type Component {
 }
 
 type Query {
+  findAllBlog(FilterOptions: BlogFilterInput): [Blog!]!
+  findOneBlog(id: Int!): Blog!
+  findAllMovie(FilterOptions: MovieFilterInput): [Movie!]!
+  findOneMovie(id: Int!): Movie!
   findAllProduct(FilterOptions: ProductFilterInput!): [Product!]!
   findOneProduct(id: Int!): Product!
   searchProduct(search: ProductSearchInput!): [Product!]!
   findAllComponents: [Component!]!
+  findAllComponentsByCollectionId(collectionID: Int!): [Component!]!
   findOnecomponent(id: Int!): Component!
   FindAllCollection: [Collection!]!
   collectionFindOne(id: Int!): Collection!
   GetCollectionData(id: Int!): ComponentsValue!
+}
+
+input BlogFilterInput {
+  page: Float = 1
+  limit: Float = 10
+  sort: String = "ASC"
+  orderBy: String
+}
+
+input MovieFilterInput {
+  page: Float = 1
+  limit: Float = 10
+  sort: String = "ASC"
+  orderBy: String
 }
 
 input ProductFilterInput {
@@ -83,9 +114,13 @@ input ProductSearchInput {
 }
 
 type Mutation {
+  createBlog(createBlogInput: CreateBlogInput!): Blog!
+  updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
+  removeProduct(id: Int!): Product!
+  createMovie(createMovieInput: CreateMovieInput!): Movie!
+  updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
-  removeProduct(id: Int!): Product!
   createComponent(createComponentInput: CreateComponentInput!): Component!
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
@@ -95,6 +130,22 @@ type Mutation {
   createComponentsValue(createComponentsValueInput: CreateComponentsValueInput!): ComponentsValue!
   updateComponentsValue(updateComponentsValueInput: UpdateComponentsValueInput!): ComponentsValue!
   removeComponentsValue(id: Int!): ComponentsValue!
+}
+
+input CreateBlogInput {
+  id: Float
+}
+
+input UpdateBlogInput {
+  id: Float!
+}
+
+input CreateMovieInput {
+  id: Float
+}
+
+input UpdateMovieInput {
+  id: Float!
 }
 
 input CreateProductInput {

@@ -21,4 +21,8 @@ export class {{properCase collectionName}}FilterInput {
   @IsOptional()
   @Field({ nullable: true, defaultValue: 'ASC'})
   sort: string;
+
+  @IsOptional()
+  @Field({ nullable: true})
+  orderBy: string;
 }

@@ -21,7 +21,7 @@ export class {{properCase collectionName}}Resolver {
 
   @Query(() => [{{properCase collectionName}}], { name: 'findAll{{properCase collectionName}}' })
   async findAll(
-    @Args('FilterOptions') filteroptions: {{properCase collectionName}}FilterInput,
+    @Args('FilterOptions',{ nullable: true }) filteroptions: {{properCase collectionName}}FilterInput,
   ): Promise<{{properCase collectionName}}[]> {
     return this.{{lowerCase collectionName}}Service.findAll(filteroptions);
   }

@@ -23,29 +23,36 @@ export class {{properCase collectionName}}Service {
     private {{properCase collectionName}}Repository: Repository<{{properCase collectionName}}>,
   ) {}
 
-async create(createProductInput: Create{{properCase collectionName}}Input): Promise<{{properCase collectionName}}> {
+async create(create{{properCase collectionName}}Input: Create{{properCase collectionName}}Input): Promise<{{properCase collectionName}}> {
     try {
-      const product = await this.{{properCase collectionName}}Repository.create(createProductInput);
-      return await this.{{properCase collectionName}}Repository.save(product);
+      const {{lowerCase collectionName}} = await this.{{properCase collectionName}}Repository.create(create{{properCase collectionName}}Input);
+      return await this.{{properCase collectionName}}Repository.save({{lowerCase collectionName}});
     } catch (error) {
       throw new RequestTimeoutException();
     }
   }
 
 async findAll(filteroptions: {{properCase collectionName}}FilterInput): Promise<{{properCase collectionName}}[]> {
+
+    const defaultFilterValue = {
+      orderBy: filteroptions.orderBy || 'id',
+      sort: 'ASC',
+      limit: filteroptions.page || 10,
+      page: filteroptions.limit || 0,
+    };
     return await this.{{properCase collectionName}}Repository
-      .createQueryBuilder('product')
-      .orderBy(filteroptions.sort)
-      .limit(filteroptions.limit)
-      .offset(filteroptions.page * filteroptions.limit)
+      .createQueryBuilder('{{lowerCase collectionName}}')
+      .orderBy(defaultFilterValue.orderBy, 'ASC')
+      .limit(defaultFilterValue.limit)
+      .offset(defaultFilterValue.page * defaultFilterValue.limit)
       .getMany();
   }
 
 async findOne(id: number): Promise<{{properCase collectionName}}> {
-    const product = await this.{{properCase collectionName}}Repository.findOneBy({ id });
-    if (!product)
-      throw new BadRequestException(`Product with id ${id} not found`);
-    return product;
+    const {{lowerCase collectionName}} = await this.{{properCase collectionName}}Repository.findOneBy({ id });
+    if (!{{lowerCase collectionName}})
+      throw new BadRequestException(`{{lowerCase collectionName}} with id ${id} not found`);
+    return {{lowerCase collectionName}};
   }
 
 async update(
@@ -63,10 +70,10 @@ async update(
 
 async remove(id: number): Promise<{{properCase collectionName}}> {
     try {
-      const product = await this.{{properCase collectionName}}Repository.findOneBy({ id });
-      if (!product) throw new BadRequestException('Product not found');
+      const {{lowerCase collectionName}} = await this.{{properCase collectionName}}Repository.findOneBy({ id });
+      if (!{{lowerCase collectionName}}) throw new BadRequestException('Product not found');
       const deleted = await this.{{properCase collectionName}}Repository.delete({ id });
-      return product;
+      return {{lowerCase collectionName}};
     } catch (error) {
       throw new BadRequestException(`{{properCase collectionName}} with id ${id} not found`);
     }

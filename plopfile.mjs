@@ -10,6 +10,24 @@ export default function plopFunc(
     return `${dataaParsed.name}: ${dataaParsed.type}`;
   });
 
+  plop.setActionType('removeimport', function (answers, config, plop) {
+    console.log(config);
+    plop
+      .getActionType('modify')
+      // plop.getActionType('modify').template = function (data, config) {
+      //   const file = plop.renderString(config.path, data);
+      //   const fileContent = plop.fs.read(file);
+      //   const regex = new RegExp(
+      //     `import { ${data.name}Module } from '.\/dynamic\/${data.name}\/${data.name}.module'`,
+      //     'g',
+      //   );
+      //   const newFileContent = fileContent.replace(regex, '');
+      //   plop.fs.write(file, newFileContent);
+      // };
+      // console.log(answers);
+      .console.log(config);
+  });
+
   plop.setGenerator('addmodule', {
     description: 'Create a NestJS module',
     prompts: [
@@ -101,6 +119,18 @@ export default function plopFunc(
         pattern: /(id: number\;)/g,
         template: `$1\n \n@Field()\n @Column()\n {{{json}}} \n`,
       },
+      {
+        type: 'modify',
+        path: 'src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase name}}.input.ts',
+        pattern: /(id: number\;)/g,
+        template: `$1\n \n@Field({nullable: true,})\n{{{json}}} \n`,
+      },
+      {
+        type: 'modify',
+        path: 'src/dynamic/{{lowerCase name}}/dto/update-{{lowerCase name}}.input.ts',
+        pattern: /(id: number\;)/g,
+        template: `$1\n \n@Field({nullable: true,})\n{{{json}}} \n`,
+      },
     ],
   });
 
@@ -114,15 +144,20 @@ export default function plopFunc(
       },
     ],
     actions: [
-      // {
-      //   type: 'modify',
-      //   path: 'src/app.module.ts',
-      //   pattern: new RegExp(`/name}})/g`),
-      //   template: '',
-      // },
+      {
+        type: 'removeimport',
+        path: 'src/app.module.ts',
+        val: '',
+      },
+      {
+        type: 'modify',
+        path: 'src/app.module.ts',
+        pattern: /.*Test.*/g,
+        template: ' ',
+      },
       // {
       //   type: 'remove',
-      //   path: 'src/{{name}}',
+      //   path: 'src/dynamic/{{name}}',
       // },
     ],
   });

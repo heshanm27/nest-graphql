@@ -6,10 +6,9 @@ import {
   RequestTimeoutException,
 } from '@nestjs/common/exceptions';
 import { {{properCase collectionName}}FilterInput } from './dto/filter_{{lowerCase     collectionName}}_input';
-import { Create{{properCase collectionName}}Input } from './dto/create-{{lowerCase collectionName}}.input';
+import { {{properCase collectionName}}Input } from './dto/create-{{lowerCase collectionName}}.input';
 import { Update{{properCase collectionName}}Input } from './dto/update-{{lowerCase collectionName}}.input';
 import { {{properCase collectionName}} } from './entities/{{lowerCase collectionName}}.entity';
-
 
 
 
@@ -23,9 +22,9 @@ export class {{properCase collectionName}}Service {
     private {{properCase collectionName}}Repository: Repository<{{properCase collectionName}}>,
   ) {}
 
-async create(create{{properCase collectionName}}Input: Create{{properCase collectionName}}Input): Promise<{{properCase collectionName}}> {
+async create({{properCase collectionName}}Input: {{properCase collectionName}}Input): Promise<{{properCase collectionName}}> {
     try {
-      const {{lowerCase collectionName}} = await this.{{properCase collectionName}}Repository.create(create{{properCase collectionName}}Input);
+      const {{lowerCase collectionName}} = await this.{{properCase collectionName}}Repository.create({{properCase collectionName}}Input);
       return await this.{{properCase collectionName}}Repository.save({{lowerCase collectionName}});
     } catch (error) {
       throw new RequestTimeoutException();
@@ -57,14 +56,14 @@ async findOne(id: number): Promise<{{properCase collectionName}}> {
 
 async update(
     id: number,
-    updateProductInput: Update{{properCase collectionName}}Input,
+    {{properCase collectionName}}Input: {{properCase collectionName}}Input,
   ): Promise<{{properCase collectionName}}> {
     const foundProduct = await this.{{properCase collectionName}}Repository.findOneBy({ id });
 
     if (!foundProduct)
-      throw new BadRequestException(`Product with id ${id} not found`);
+      throw new BadRequestException(`{{properCase collectionName}} with id ${id} not found`);
 
-    await this.{{properCase collectionName}}Repository.update(id, updateProductInput);
+    await this.{{properCase collectionName}}Repository.update(id, {{properCase collectionName}}Input);
     return await this.{{properCase collectionName}}Repository.findOneBy({ id });
   }
 

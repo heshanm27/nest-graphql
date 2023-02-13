@@ -56,7 +56,6 @@ export class ComponentsService {
 
       return savedProduct;
     } catch (error) {
-      console.log(error);
       if (error.code === 'ER_DUP_ENTRY')
         throw new BadRequestException(
           'Component already exists with this name',

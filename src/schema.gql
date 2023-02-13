@@ -2,16 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Blog {
-  id: Int!
-  blograte: Float!
-  blogname: String!
-}
-
 type Movie {
   id: Int!
-  movierate: Float!
-  moviename: String!
+  johanggb: String!
+  johang: String!
+  johan: String!
+  ssfg: String!
+  ss: String!
+  thisara: String!
+  docges: String!
+  docnames: String!
 }
 
 type Product {
@@ -56,8 +56,6 @@ type Component {
 }
 
 type Query {
-  findAllBlog(FilterOptions: BlogFilterInput): [Blog!]!
-  findOneBlog(id: Int!): Blog!
   findAllMovie(FilterOptions: MovieFilterInput): [Movie!]!
   findOneMovie(id: Int!): Movie!
   findAllProduct(FilterOptions: ProductFilterInput!): [Product!]!
@@ -69,13 +67,6 @@ type Query {
   FindAllCollection: [Collection!]!
   collectionFindOne(id: Int!): Collection!
   GetCollectionData(id: Int!): ComponentsValue!
-}
-
-input BlogFilterInput {
-  page: Float = 1
-  limit: Float = 10
-  sort: String = "ASC"
-  orderBy: String
 }
 
 input MovieFilterInput {
@@ -114,11 +105,9 @@ input ProductSearchInput {
 }
 
 type Mutation {
-  createBlog(createBlogInput: CreateBlogInput!): Blog!
-  updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
-  removeProduct(id: Int!): Product!
-  createMovie(createMovieInput: CreateMovieInput!): Movie!
+  createMovie(MovieInput: MovieInput!): Movie!
   updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
+  removeProduct(id: Int!): Product!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   createComponent(createComponentInput: CreateComponentInput!): Component!
@@ -132,20 +121,28 @@ type Mutation {
   removeComponentsValue(id: Int!): ComponentsValue!
 }
 
-input CreateBlogInput {
+input MovieInput {
   id: Float
-}
-
-input UpdateBlogInput {
-  id: Float!
-}
-
-input CreateMovieInput {
-  id: Float
+  johanggb: String
+  johang: String
+  johan: String
+  ssfg: String
+  ss: String
+  thisara: String
+  docges: String
+  docnames: String
 }
 
 input UpdateMovieInput {
   id: Float!
+  johanggb: String
+  johang: String
+  johan: String
+  ssfg: String
+  ss: String
+  thisara: String
+  docges: String
+  docnames: String
 }
 
 input CreateProductInput {

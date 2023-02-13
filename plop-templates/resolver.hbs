@@ -3,7 +3,7 @@ import { {{properCase collectionName}}Service } from './{{lowerCase collectionNa
 import { {{properCase collectionName}} } from './entities/{{lowerCase collectionName}}.entity';
 
 import { {{properCase collectionName}}FilterInput } from './dto/filter_{{lowerCase collectionName}}_input';
-import { Create{{properCase collectionName}}Input } from './dto/create-{{lowerCase collectionName}}.input';
+import { {{properCase collectionName}}Input } from './dto/create-{{lowerCase collectionName}}.input';
 import { Update{{properCase collectionName}}Input } from './dto/update-{{lowerCase collectionName}}.input';
 
 
@@ -14,9 +14,9 @@ export class {{properCase collectionName}}Resolver {
 
   @Mutation(() => {{properCase collectionName}})
   async create{{properCase collectionName}}(
-    @Args('create{{properCase collectionName}}Input') create{{properCase collectionName}}Input: Create{{properCase collectionName}}Input,
+    @Args('{{properCase collectionName}}Input') {{properCase collectionName}}Input: {{properCase collectionName}}Input,
   ): Promise<{{properCase collectionName}}> {
-    return await this.{{lowerCase collectionName}}Service.create(create{{properCase collectionName}}Input);
+    return await this.{{lowerCase collectionName}}Service.create({{properCase collectionName}}Input);
   }
 
   @Query(() => [{{properCase collectionName}}], { name: 'findAll{{properCase collectionName}}' })

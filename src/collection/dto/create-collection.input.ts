@@ -10,7 +10,6 @@ import {
 @InputType()
 export class CreateCollectionInput {
   @IsString()
-  @Matches(/^[a-zA-Z]+$/, { message: 'Collection name must be a string' })
   @MinLength(3)
   @IsNotEmpty()
   @Field()

@@ -2,15 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Events {
+type Test {
   id: Int!
-  eventname: String!
+  johan: String!
+  testname: String!
 }
 
 type Movie {
   id: Int!
-  actors: String!
-  director: String!
+  sdsd: String!
+  eventname: String!
   movierate: String!
   moviename: String!
 }
@@ -57,8 +58,8 @@ type Component {
 }
 
 type Query {
-  findAllEvents(FilterOptions: EventsFilterInput): [Events!]!
-  findOneEvents(id: Int!): Events!
+  findAllTest(FilterOptions: TestFilterInput): [Test!]!
+  findOneTest(id: Int!): Test!
   findAllMovie(FilterOptions: MovieFilterInput): [Movie!]!
   findOneMovie(id: Int!): Movie!
   findAllProduct(FilterOptions: ProductFilterInput!): [Product!]!
@@ -72,7 +73,7 @@ type Query {
   GetCollectionData(id: Int!): ComponentsValue!
 }
 
-input EventsFilterInput {
+input TestFilterInput {
   page: Float = 1
   limit: Float = 10
   sort: String = "ASC"
@@ -115,8 +116,8 @@ input ProductSearchInput {
 }
 
 type Mutation {
-  createEvents(EventsInput: EventsInput!): Events!
-  updateEvents(updateEventsInput: UpdateEventsInput!): Events!
+  createTest(TestInput: TestInput!): Test!
+  updateTest(updateTestInput: UpdateTestInput!): Test!
   removeProduct(id: Int!): Product!
   createMovie(MovieInput: MovieInput!): Movie!
   updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
@@ -133,26 +134,28 @@ type Mutation {
   removeComponentsValue(id: Int!): ComponentsValue!
 }
 
-input EventsInput {
-  eventname: String
+input TestInput {
+  johan: String
+  testname: String
 }
 
-input UpdateEventsInput {
+input UpdateTestInput {
   id: Float!
-  eventname: String
+  johan: String
+  testname: String
 }
 
 input MovieInput {
-  actors: String
-  director: String
+  sdsd: String
+  eventname: String
   movierate: String
   moviename: String
 }
 
 input UpdateMovieInput {
   id: Float!
-  actors: String
-  director: String
+  sdsd: String
+  eventname: String
   movierate: String
   moviename: String
 }

@@ -16,6 +16,7 @@ export class CollectionService {
 
   async create(createCollectionInput: CreateCollectionInput) {
     try {
+      console.log(createCollectionInput);
       const collection = await this.collectionRepository.create(
         createCollectionInput,
       );

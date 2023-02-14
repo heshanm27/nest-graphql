@@ -1,4 +1,4 @@
-import { EventsModule } from './dynamic/events/events.module'
+import { TestModule } from './dynamic/test/test.module'
 import { MovieModule } from './dynamic/movie/movie.module'
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -14,7 +14,7 @@ import { ComponentsValueModule } from './components-value/components-value.modul
 
 @Module({
   imports: [
-    EventsModule,
+    TestModule,
     MovieModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

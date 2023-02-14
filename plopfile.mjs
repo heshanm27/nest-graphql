@@ -13,20 +13,7 @@ export default function plopFunc(
 
   plop.setActionType('removeimport', function (answers, config, plop) {
     console.log(config);
-    plop
-      .getActionType('modify')
-      // plop.getActionType('modify').template = function (data, config) {
-      //   const file = plop.renderString(config.path, data);
-      //   const fileContent = plop.fs.read(file);
-      //   const regex = new RegExp(
-      //     `import { ${data.name}Module } from '.\/dynamic\/${data.name}\/${data.name}.module'`,
-      //     'g',
-      //   );
-      //   const newFileContent = fileContent.replace(regex, '');
-      //   plop.fs.write(file, newFileContent);
-      // };
-      // console.log(answers);
-      .console.log(config);
+    plop.renderString('');
   });
 
   plop.setGenerator('addmodule', {

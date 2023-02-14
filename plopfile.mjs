@@ -7,6 +7,7 @@ export default function plopFunc(
   plop.setHelper('json', function (context) {
     const data = context.data.root.entity;
     const dataaParsed = JSON.parse(data);
+    console.log(dataaParsed);
     return `${dataaParsed.name}: ${dataaParsed.type}`;
   });
 
@@ -122,8 +123,15 @@ export default function plopFunc(
       {
         type: 'modify',
         path: 'src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase name}}.input.ts',
-        pattern: /(id: number\;)/g,
-        template: `$1\n \n@Field({nullable: true,})\n{{{json}}} \n`,
+        pattern: /(.*export class.*{)/g,
+        template: `$1\n  \n@Field({nullable: true,})\n{{{json}}} \n`,
+      },
+      {
+        type: 'modify',
+        path: 'src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase name}}.input.ts',
+        pattern:
+          /@Field\(\{\s*nullable:\s*(true|false),\s*\}\)\s*@(IsString)\(\)\s*(\w+)\s*:\s*(number);/g,
+        template: '',
       },
       {
         type: 'modify',

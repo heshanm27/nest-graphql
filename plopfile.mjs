@@ -13,7 +13,7 @@ export default function plopFunc(
 
   plop.setActionType('removeimport', function (answers, config, plop) {
     console.log(config);
-    plop.renderString('');
+    plop.renderString('', answers);
   });
 
   plop.setGenerator('addmodule', {

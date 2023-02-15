@@ -11,11 +11,6 @@ export default function plopFunc(
     return `${dataaParsed.name}: ${dataaParsed.type}`;
   });
 
-  plop.setActionType('removeimport', function (answers, config, plop) {
-    console.log(config);
-    plop.renderString('', answers);
-  });
-
   plop.setGenerator('addmodule', {
     description: 'Create a NestJS module',
     prompts: [
@@ -138,26 +133,25 @@ export default function plopFunc(
         message: 'What is the entity name?',
       },
     ],
-    actions: [
-      {
-        type: 'removeimport',
-        path: 'src/app.module.ts',
-        val: '',
-      },
-      {
-        type: 'modify',
-        path: 'src/app.module.ts',
-        pattern: /.*Test.*/g,
-        template: ' ',
-      },
-      // {
-      //   type: 'remove',
-      //   path: 'src/dynamic/{{name}}',
-      // },
-    ],
+    actions: function (data) {
+      const regex = new RegExp(`.*${data.name}Module.*`, 'g');
+      var actions = [
+        {
+          type: 'modify',
+          path: 'src/app.module.ts',
+          pattern: regex,
+          template: ' ',
+        },
+        {
+          type: 'remove',
+          path: 'src/dynamic/{{properCase name}}',
+        },
+      ];
+      return actions;
+    },
   });
 
-  plop.setGenerator('updateModule', {
+  plop.setGenerator('update', {
     description: 'update a module',
     prompts: [
       {

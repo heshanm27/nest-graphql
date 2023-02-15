@@ -2,20 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Test {
-  id: Int!
-  johan: String!
-  testname: String!
-}
-
-type Movie {
-  id: Int!
-  sdsd: String!
-  eventname: String!
-  movierate: String!
-  moviename: String!
-}
-
 type Product {
   id: Int!
   productName: String!
@@ -58,10 +44,6 @@ type Component {
 }
 
 type Query {
-  findAllTest(FilterOptions: TestFilterInput): [Test!]!
-  findOneTest(id: Int!): Test!
-  findAllMovie(FilterOptions: MovieFilterInput): [Movie!]!
-  findOneMovie(id: Int!): Movie!
   findAllProduct(FilterOptions: ProductFilterInput!): [Product!]!
   findOneProduct(id: Int!): Product!
   searchProduct(search: ProductSearchInput!): [Product!]!
@@ -71,20 +53,6 @@ type Query {
   FindAllCollection: [Collection!]!
   collectionFindOne(id: Int!): Collection!
   GetCollectionData(id: Int!): ComponentsValue!
-}
-
-input TestFilterInput {
-  page: Float = 1
-  limit: Float = 10
-  sort: String = "ASC"
-  orderBy: String
-}
-
-input MovieFilterInput {
-  page: Float = 1
-  limit: Float = 10
-  sort: String = "ASC"
-  orderBy: String
 }
 
 input ProductFilterInput {
@@ -116,13 +84,9 @@ input ProductSearchInput {
 }
 
 type Mutation {
-  createTest(TestInput: TestInput!): Test!
-  updateTest(updateTestInput: UpdateTestInput!): Test!
-  removeProduct(id: Int!): Product!
-  createMovie(MovieInput: MovieInput!): Movie!
-  updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: Int!): Product!
   createComponent(createComponentInput: CreateComponentInput!): Component!
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
@@ -132,32 +96,6 @@ type Mutation {
   createComponentsValue(createComponentsValueInput: CreateComponentsValueInput!): ComponentsValue!
   updateComponentsValue(updateComponentsValueInput: UpdateComponentsValueInput!): ComponentsValue!
   removeComponentsValue(id: Int!): ComponentsValue!
-}
-
-input TestInput {
-  johan: String
-  testname: String
-}
-
-input UpdateTestInput {
-  id: Float!
-  johan: String
-  testname: String
-}
-
-input MovieInput {
-  sdsd: String
-  eventname: String
-  movierate: String
-  moviename: String
-}
-
-input UpdateMovieInput {
-  id: Float!
-  sdsd: String
-  eventname: String
-  movierate: String
-  moviename: String
 }
 
 input CreateProductInput {

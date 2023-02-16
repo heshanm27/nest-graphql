@@ -3,9 +3,9 @@ import { CreateCollectionInput } from './dto/create-collection.input';
 import { UpdateCollectionInput } from './dto/update-collection.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Collection } from './entities/collection.entity';
-import { Repository } from 'typeorm';
-import { exec } from 'child_process';
+import { ConnectionManager, Repository } from 'typeorm';
 import { runCommand } from 'src/util/command.util';
+import dataSource from 'db/data_source';
 
 @Injectable()
 export class CollectionService {
@@ -60,11 +60,27 @@ export class CollectionService {
   async remove(id: number) {
     try {
       const component = await this.collectionRepository.findOneBy({ id });
+      // console.log(component);
       if (!component) throw new BadRequestException('Collection not found');
       const deleted = await this.collectionRepository.delete({ id });
-      console.log(deleted);
+
+      await runCommand(`npm run delete:collection ${component.collectionName}`);
+      const dataSourceConnection = await dataSource.initialize();
+
+      dataSourceConnection
+        .getRepository(component.collectionName)
+        .query(`DROP TABLE ${component.collectionName}`)
+        .catch((error) => {
+          console.log(error);
+          throw new BadRequestException('Database error');
+        })
+        .finally(() => {
+          dataSourceConnection.destroy();
+        });
+
       return component;
     } catch (error) {
+      console.log(error);
       throw new BadRequestException(`Collection with id ${id} not found`);
     }
   }

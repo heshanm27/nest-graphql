@@ -20,8 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "gen:component": "plop addComponent",
     "gen": "plop addmodule ",
-    "start:mon": "nodemon",
-    "pmstart": "pm2 start pm2.config.js"
+    "delete:collection": "plop delete"
   },
   "dependencies": {
     "@nestjs/apollo": "^10.1.7",
@@ -33,6 +32,7 @@
     "apollo-server-express": "^3.11.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "del": "^7.0.0",
     "graphql": "^16.6.0",
     "graphql-type-json": "^0.3.2",
     "mysql2": "^2.3.3",

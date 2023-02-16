@@ -1,3 +1,6 @@
+import { deleteAsync } from 'del';
+import fs from 'fs';
+
 export default function plopFunc(
   /** @type {import('plop').NodePlopAPI} */
   plop,
@@ -9,6 +12,18 @@ export default function plopFunc(
     const dataaParsed = JSON.parse(data);
     console.log(dataaParsed);
     return `${dataaParsed.name}: ${dataaParsed.type}`;
+  });
+
+  plop.setActionType('deleteDirectory', async function (answers, config) {
+    console.log(config);
+    const filePath = config.path;
+    const exists = await fs.existsSync(filePath);
+    if (!exists) {
+      return 'File does not exist';
+    } else {
+      const deletedFilePaths = await deleteAsync([filePath]);
+      return `File deleted${deletedFilePaths}`;
+    }
   });
 
   plop.setGenerator('addmodule', {
@@ -125,7 +140,7 @@ export default function plopFunc(
   });
 
   plop.setGenerator('delete', {
-    description: 'delete a file',
+    description: 'delete a module',
     prompts: [
       {
         type: 'input',
@@ -134,7 +149,7 @@ export default function plopFunc(
       },
     ],
     actions: function (data) {
-      const regex = new RegExp(`.*${data.name}Module.*`, 'g');
+      const regex = new RegExp(`.*${data.name}Module.*`, 'gi');
       var actions = [
         {
           type: 'modify',
@@ -143,12 +158,31 @@ export default function plopFunc(
           template: ' ',
         },
         {
-          type: 'remove',
-          path: 'src/dynamic/{{properCase name}}',
+          type: 'deleteDirectory',
+          path: `src/dynamic/${data.name}`,
+          force: true,
+          skipIfNonexistent: true,
         },
       ];
       return actions;
     },
+  });
+
+  plop.setGenerator('test', {
+    description: 'test a file',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the entity name?',
+      },
+    ],
+    actions: [
+      {
+        type: 'remove',
+        path: 'src/dynamic/{{lowerCase name}}',
+      },
+    ],
   });
 
   plop.setGenerator('update', {

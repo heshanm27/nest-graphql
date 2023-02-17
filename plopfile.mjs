@@ -96,6 +96,72 @@ export default function plopFunc(
     ],
   });
 
+  plop.setGenerator('addFeildMenu', {
+    description: 'Create a NestJS module',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the entity name?',
+      },
+    ],
+    actions: [
+      {
+        type: 'add',
+        path: 'src/dynamic/{{lowerCase name}}/component/{{lowerCase name}}-components.module.ts',
+        templateFile: './plop-templates/dynamicField/component-module.hbs',
+        skipIfExists: true,
+      },
+      {
+        type: 'add',
+        path: 'src/dynamic/{{lowerCase name}}/component/{{lowerCase name}}-components.resolver.ts',
+        templateFile: './plop-templates/dynamicField/component-resolver.hbs',
+        skipIfExists: true,
+      },
+      {
+        type: 'add',
+        path: 'src/dynamic/{{lowerCase name}}/component/{{lowerCase name}}-components.service.ts',
+        templateFile: './plop-templates/dynamicField/component-service.hbs',
+        skipIfExists: true,
+      },
+      {
+        type: 'add',
+        path: 'src/dynamic/{{lowerCase name}}/component/entities/{{lowerCase name}}-components.entity.ts',
+        templateFile:
+          './plop-templates/dynamicField/entities/component-entitie.hbs',
+        skipIfExists: true,
+      },
+      {
+        type: 'add',
+        path: 'src/dynamic/{{lowerCase name}}/component/dto/create-component.input.ts',
+        templateFile:
+          './plop-templates/dynamicField/dto/create-component.dto.hbs',
+        skipIfExists: true,
+      },
+      {
+        type: 'add',
+        path: 'src/dynamic/{{lowerCase name}}/component/dto/update-component.input.ts',
+        templateFile:
+          './plop-templates/dynamicField/dto/update-component.dto.hbs',
+        skipIfExists: true,
+      },
+      {
+        type: 'modify',
+        path: 'src/dynamic/{{lowerCase name}}/{{lowerCase name}}.module.ts',
+        pattern: /()/,
+        template:
+          "import { {{properCase name}}ComponentsModule } from './component/{{lowerCase name}}-components.module'\n$1",
+        skipIfExists: true,
+      },
+      {
+        type: 'modify',
+        path: 'src/dynamic/{{lowerCase name}}/{{lowerCase name}}.module.ts',
+        pattern: /(imports: \[)/,
+        template: '$1\n    {{properCase name}}ComponentsModule,',
+      },
+    ],
+  });
+
   plop.setGenerator('addComponent', {
     description: 'Create a test object',
     prompts: [

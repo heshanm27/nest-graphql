@@ -3,8 +3,8 @@ import { CreateCollectionInput } from './dto/create-collection.input';
 import { UpdateCollectionInput } from './dto/update-collection.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Collection } from './entities/collection.entity';
-import { ConnectionManager, Repository } from 'typeorm';
-import { runCommand } from 'src/util/command.util';
+import { Repository } from 'typeorm';
+import { runCommand } from '../util/command.util';
 import dataSource from 'db/data_source';
 
 @Injectable()

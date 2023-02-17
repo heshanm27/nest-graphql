@@ -1,0 +1,48 @@
+import { ObjectType, Field, Int} from '@nestjs/graphql';
+import { Collection } from '../../../../collection/entities/collection.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+
+@Entity('{{lowerCase name}}component')
+@ObjectType()
+export class {{properCase name}}Component {
+  @PrimaryGeneratedColumn('increment')
+  @Field((type) => Int)
+  id: number;
+
+  @Column()
+  @Field()
+  htmlInputType: string;
+
+  @Column()
+  @Field()
+  dataType: string;
+
+  @Column({
+    unique: true,
+  })
+  @Field()
+  name: string;
+
+  @Column()
+  @Field({ nullable: true })
+  componentId: string;
+
+  @Column()
+  @Field({ nullable: true })
+  label: string;
+
+  @Column()
+  @Field((type) => Int)
+  collectionId: number;
+
+  @ManyToOne(() => Collection, (collection) => collection.id, {
+    onDelete: 'CASCADE',
+  })
+  @Field((type) => Collection)
+  collection: Collection;
+}

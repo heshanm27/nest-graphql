@@ -3,18 +3,17 @@ import {
   IsString,
   IsOptional,
   IsNotEmpty,
-  IsNumberString,
   IsNumber,
 } from 'class-validator';
-import { HTMLInputTypes } from '../../util/default-enum.util';
+import { HTMLInputTypes } from '../../../../util/default-enum.util';
 
-// registerEnumType(HTMLInputTypes, {
-//   name: 'HTMLInputType', // this one is mandatory
-//   description: 'HTML Input Types ', // this one is optional
-// });
+ registerEnumType(HTMLInputTypes, {
+   name: 'HTMLInputType', // this one is mandatory
+  description: 'HTML Input Types ', // this one is optional
+ });
 
 @InputType()
-export class UpdateComponentInput {
+export class Update{{properCase name}}ComponentInput {
   @IsNumber()
   @Field((type) => Int)
   id: number;

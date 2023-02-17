@@ -1,24 +1,8 @@
 import { InputType, Field, registerEnumType, Int } from '@nestjs/graphql';
 import { Transform } from 'class-transformer';
 import { IsString, IsOptional, IsNotEmpty, IsNumber } from 'class-validator';
-import { HTMLInputTypes, DataType } from '../../util/default-enum.util';
-// export enum HTMLInputTypes {
-//   DATE = 'date',
-//   EMAIL = 'email',
-//   NUMBER = 'number',
-//   PASSWORD = 'password',
-//   TEXT = 'text',
-//   TIME = 'time',
-//   FILE = 'file',
-//   CHECKBOX = 'checkbox',
-// }
+import { HTMLInputTypes, DataType } from '../../../../util/default-enum.util';
 
-// export enum DataType {
-//   STRING = 'string',
-//   NUMBER = 'number',
-//   BOOLEAN = 'boolean',
-//   DATE = 'Date',
-// }
 
 registerEnumType(HTMLInputTypes, {
   name: 'HTMLInputType', // this one is mandatory
@@ -30,7 +14,7 @@ registerEnumType(DataType, {
   description: 'Data Types ',
 });
 @InputType()
-export class CreateComponentInput {
+export class Create{{properCase name}}ComponentInput {
   @IsNotEmpty()
   @Field(() => HTMLInputTypes, {
     defaultValue: HTMLInputTypes.TEXT,

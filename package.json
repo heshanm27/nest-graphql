@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "gen:component": "plop addComponent",
     "gen": "plop addmodule ",
+    "gen:basecom": "plop addFeildMenu",
     "delete:collection": "plop delete"
   },
   "dependencies": {
@@ -37,7 +38,9 @@
     "graphql-type-json": "^0.3.2",
     "mysql2": "^2.3.3",
     "plop": "^3.1.1",
+    "plop-action-copy": "^1.1.0",
     "plop-pack-remove": "^1.1.0",
+    "plop-pack-rename-many": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "slugify": "^1.6.5",

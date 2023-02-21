@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type MovieComponent {
+  id: Int!
+  htmlInputType: String!
+  dataType: String!
+  name: String!
+  componentId: String
+  label: String
+}
+
 type ComponentsValue {
   id: Int!
   data: JSON!
@@ -14,13 +23,6 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
-type Collection {
-  id: Int!
-  collectionName: String!
-  components: [Component!]!
-  componentsValue: [ComponentsValue!]!
-}
-
 type Component {
   id: Int!
   htmlInputType: String!
@@ -32,7 +34,27 @@ type Component {
   collection: Collection!
 }
 
+type Collection {
+  id: Int!
+  collectionName: String!
+  components: [Component!]!
+  componentsValue: [ComponentsValue!]!
+}
+
+type Movie {
+  id: Int!
+  johanemail: String!
+  johanpass: String!
+  moviename: String!
+  johan2: String!
+  johan: String!
+}
+
 type Query {
+  findAllMovie(FilterOptions: MovieFilterInput): [Movie!]!
+  findOneMovie(id: Int!): Movie!
+  findAllMovieComponents: [MovieComponent!]!
+  findOneMovieComponent(id: Int!): MovieComponent!
   findAllComponents: [Component!]!
   findAllComponentsByCollectionId(collectionID: Int!): [Component!]!
   findOnecomponent(id: Int!): Component!
@@ -41,7 +63,20 @@ type Query {
   GetCollectionData(id: Int!): ComponentsValue!
 }
 
+input MovieFilterInput {
+  page: Float = 1
+  limit: Float = 10
+  sort: String = "ASC"
+  orderBy: String
+}
+
 type Mutation {
+  createMovie(MovieInput: MovieInput!): Movie!
+  updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
+  removeProduct(id: Int!): Movie!
+  createMovieComponent(createMovieComponentInput: CreateMovieComponentInput!): MovieComponent!
+  updateMovieComponent(updateMovieComponentInput: UpdateMovieComponentInput!): MovieComponent!
+  removeMovieComponent(id: Int!): MovieComponent!
   createComponent(createComponentInput: CreateComponentInput!): Component!
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
@@ -53,7 +88,24 @@ type Mutation {
   removeComponentsValue(id: Int!): ComponentsValue!
 }
 
-input CreateComponentInput {
+input MovieInput {
+  johanemail: String
+  johanpass: String
+  moviename: String
+  johan2: String
+  johan: String
+}
+
+input UpdateMovieInput {
+  id: Float!
+  johanemail: String
+  johanpass: String
+  moviename: String
+  johan2: String
+  johan: String
+}
+
+input CreateMovieComponentInput {
   htmlInputType: HTMLInputType! = TEXT
   dataType: DataType! = STRING
   name: String!
@@ -82,6 +134,24 @@ enum DataType {
   DATE
 }
 
+input UpdateMovieComponentInput {
+  id: Int!
+  dataType: HTMLInputType
+  htmlInputType: DataType
+  name: String
+  componentId: String
+  label: String
+}
+
+input CreateComponentInput {
+  htmlInputType: HTMLInputType! = TEXT
+  dataType: DataType! = STRING
+  name: String!
+  collectionId: Int!
+  componentId: String
+  label: String
+}
+
 input UpdateComponentInput {
   id: Int!
   collectionId: Int!
@@ -97,6 +167,7 @@ input CreateCollectionInput {
 }
 
 input UpdateCollectionInput {
+  id: Float!
   collectionName: String!
 }
 

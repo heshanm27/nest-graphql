@@ -14,7 +14,7 @@ registerEnumType(DataType, {
   description: 'Data Types ',
 });
 @InputType()
-export class Create{{properCase name}}ComponentInput {
+export class Create{{properCase collectionName}}ComponentInput {
   @IsNotEmpty()
   @Field(() => HTMLInputTypes, {
     defaultValue: HTMLInputTypes.TEXT,

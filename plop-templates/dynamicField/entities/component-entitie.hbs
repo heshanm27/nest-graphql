@@ -7,9 +7,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('{{lowerCase name}}component')
+@Entity('{{lowerCase collectionName}}component')
 @ObjectType()
-export class {{properCase name}}Component {
+export class {{properCase collectionName}}Component {
   @PrimaryGeneratedColumn('increment')
   @Field((type) => Int)
   id: number;
@@ -36,13 +36,4 @@ export class {{properCase name}}Component {
   @Field({ nullable: true })
   label: string;
 
-  @Column()
-  @Field((type) => Int)
-  collectionId: number;
-
-  @ManyToOne(() => Collection, (collection) => collection.id, {
-    onDelete: 'CASCADE',
-  })
-  @Field((type) => Collection)
-  collection: Collection;
 }

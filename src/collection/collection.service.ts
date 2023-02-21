@@ -16,13 +16,17 @@ export class CollectionService {
 
   async create(createCollectionInput: CreateCollectionInput) {
     try {
-      console.log(createCollectionInput);
       const collection = await this.collectionRepository.create(
         createCollectionInput,
       );
-      const commandResult = await runCommand(
-        `npm run gen ${createCollectionInput.collectionName}`,
-      );
+
+      await Promise.all([
+        runCommand(`npm run gen ${createCollectionInput.collectionName}`),
+        runCommand(
+          `npm run gen:basecom ${createCollectionInput.collectionName}`,
+        ),
+      ]);
+
       return await this.collectionRepository.save(collection);
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY')
@@ -49,12 +53,34 @@ export class CollectionService {
 
   async update(id: number, updateCollectionInput: UpdateCollectionInput) {
     const foundComponent = await this.collectionRepository.findOneBy({ id });
-
+    console.log('found component', foundComponent);
     if (!foundComponent)
       throw new BadRequestException(`Collection with id ${id} not found`);
 
-    await this.collectionRepository.update(id, updateCollectionInput);
-    return await this.collectionRepository.findOneBy({ id });
+    const dataSourceConnection = await dataSource.initialize();
+    const repostory = dataSourceConnection.getRepository(
+      foundComponent.collectionName,
+    );
+    const queryRunner = dataSourceConnection.createQueryRunner();
+    try {
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+      await repostory.query(
+        `ALTER TABLE ${foundComponent.collectionName} RENAME TO ${updateCollectionInput.collectionName}`,
+      );
+      await repostory.query(
+        `ALTER TABLE ${foundComponent.collectionName}component RENAME TO ${updateCollectionInput.collectionName}component`,
+      );
+      await this.collectionRepository.update(id, updateCollectionInput);
+      return await this.collectionRepository.findOneBy({ id });
+    } catch (error) {
+      console.log(error);
+      await queryRunner.rollbackTransaction();
+      throw new BadRequestException(`Collection with id ${id} not found`);
+    } finally {
+      await queryRunner.release();
+      dataSourceConnection.destroy();
+    }
   }
 
   async remove(id: number) {
@@ -62,9 +88,8 @@ export class CollectionService {
       const component = await this.collectionRepository.findOneBy({ id });
       // console.log(component);
       if (!component) throw new BadRequestException('Collection not found');
-      const deleted = await this.collectionRepository.delete({ id });
+      await this.collectionRepository.delete({ id });
 
-      await runCommand(`npm run delete:collection ${component.collectionName}`);
       const dataSourceConnection = await dataSource.initialize();
 
       dataSourceConnection
@@ -77,6 +102,7 @@ export class CollectionService {
         .finally(() => {
           dataSourceConnection.destroy();
         });
+      await runCommand(`npm run delete:collection ${component.collectionName}`);
 
       return component;
     } catch (error) {

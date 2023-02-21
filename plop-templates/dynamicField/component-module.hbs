@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { {{properCase name}}ComponentsService } from './{{lowerCase name}}-components.service';
-import { {{properCase name}}ComponentsResolver } from './{{lowerCase name}}-components.resolver';
+import { {{properCase collectionName}}ComponentsService } from './{{lowerCase collectionName}}-components.service';
+import { {{properCase collectionName}}ComponentsResolver } from './{{lowerCase collectionName}}-components.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { {{properCase name}}Component } from './entities/{{lowerCase name}}-components.entity';
+import { {{properCase collectionName}}Component } from './entities/{{lowerCase collectionName}}-components.entity';
 import { Collection } from 'src/collection/entities/collection.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([{{properCase name}}Component]),
+    TypeOrmModule.forFeature([{{properCase collectionName}}Component]),
     TypeOrmModule.forFeature([Collection]),
   ],
-  providers: [{{properCase name}}ComponentsResolver, {{properCase name}}ComponentsService],
-  exports: [{{properCase name}}ComponentsService],
+  providers: [{{properCase collectionName}}ComponentsResolver, {{properCase collectionName}}ComponentsService],
+  exports: [{{properCase collectionName}}ComponentsService],
 })
-export class {{properCase name}}ComponentsModule {}
+export class {{properCase collectionName}}ComponentsModule {}

@@ -5,22 +5,22 @@ import {
   IsNotEmpty,
   IsNumber,
 } from 'class-validator';
-import { HTMLInputTypes } from '../../../../util/default-enum.util';
+import { HTMLInputTypes, DataType } from '../../../../util/default-enum.util';
+
 
  registerEnumType(HTMLInputTypes, {
    name: 'HTMLInputType', // this one is mandatory
   description: 'HTML Input Types ', // this one is optional
  });
-
+registerEnumType(DataType, {
+  name: 'DataType',
+  description: 'Data Types ',
+});
 @InputType()
-export class Update{{properCase name}}ComponentInput {
+export class Update{{properCase collectionName}}ComponentInput {
   @IsNumber()
   @Field((type) => Int)
   id: number;
-
-  @IsNumber()
-  @Field((type) => Int)
-  collectionId: number;
 
   @IsString()
   @IsNotEmpty()
@@ -31,7 +31,7 @@ export class Update{{properCase name}}ComponentInput {
 
   @IsString()
   @IsNotEmpty()
-  @Field(() => HTMLInputTypes, {
+  @Field(() => DataType, {
     nullable: true,
   })
   htmlInputType: string;
@@ -43,7 +43,7 @@ export class Update{{properCase name}}ComponentInput {
 
   @IsOptional()
   @Field({ nullable: true })
-  componenId: string;
+  componentId: string;
 
   @IsOptional()
   @Field({ nullable: true })

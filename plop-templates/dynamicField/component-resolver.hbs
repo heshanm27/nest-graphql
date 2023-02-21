@@ -7,52 +7,51 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { {{properCase name}}ComponentsService } from './{{lowerCase name}}-components.service';
-import { {{properCase name}}Component } from './entities/{{lowerCase name}}-components.entity';
-import { Create{{properCase name}}ComponentInput } from './dto/create-component.input';
-import { Update{{properCase name}}ComponentInput } from './dto/update-component.input';
+import { {{properCase collectionName}}ComponentsService } from './{{lowerCase collectionName}}-components.service';
+import { {{properCase collectionName}}Component } from './entities/{{lowerCase collectionName}}-components.entity';
+import { Create{{properCase collectionName}}ComponentInput } from './dto/create-component.input';
+import { Update{{properCase collectionName}}ComponentInput } from './dto/update-component.input';
 
 
-@Resolver(() => {{properCase name}}Component)
-export class {{properCase name}}ComponentsResolver {
-  constructor(private readonly {{lowerCase name}}ComponentsService: {{properCase name}}ComponentsService) {}
+@Resolver(() => {{properCase collectionName}}Component)
+export class {{properCase collectionName}}ComponentsResolver {
+  constructor(private readonly {{lowerCase collectionName}}ComponentsService: {{properCase collectionName}}ComponentsService) {}
 
-  @Mutation(() => {{properCase name}}Component)
-  create{{lowerCase name}}Component(
-    @Args('create{{lowerCase name}}ComponentInput') create{{properCase name}}ComponentInput: Create{{properCase name}}ComponentInput,
+  @Mutation(() => {{properCase collectionName}}Component)
+  create{{properCase collectionName}}Component(
+    @Args('create{{properCase collectionName}}ComponentInput') create{{properCase collectionName}}ComponentInput: Create{{properCase collectionName}}ComponentInput,
   ) {
-    return this.{{lowerCase name}}ComponentsService.create(create{{properCase name}}ComponentInput);
+    return this.{{lowerCase collectionName}}ComponentsService.create(create{{properCase collectionName}}ComponentInput);
   }
 
-  @Query(() => [{{properCase name}}Component], { name: 'findAll{{properCase name}}Components' })
-  findAll(): Promise<{{properCase name}}Component[]> {
-    return this.{{lowerCase name}}ComponentsService.findAll();
+  @Query(() => [{{properCase collectionName}}Component], { name: 'findAll{{properCase collectionName}}Components' })
+  findAll(): Promise<{{properCase collectionName}}Component[]> {
+    return this.{{lowerCase collectionName}}ComponentsService.findAll();
   }
 
-  @Query(() => [{{properCase name}}Component], { name: 'findAll{{properCase name}}ComponentsByCollectionId' })
+  @Query(() => [{{properCase collectionName}}Component], { name: 'findAll{{properCase collectionName}}Components' })
   async findAllByCollectionId(
-    @Args('collectionID', { type: () => Int }) id: number,
-  ): Promise<{{properCase name}}Component[]> {
-    return await this.{{lowerCase name}}ComponentsService.find{{properCase name}}ComponentsByCollectionId(id);
+  ): Promise<{{properCase collectionName}}Component[]> {
+    return await this.{{lowerCase collectionName}}ComponentsService.find{{properCase collectionName}}Components();
   }
 
-  @Query(() => {{properCase name}}Component, { name: 'findOne{{properCase name}}Component' })
-  findOne(@Args('id', { type: () => Int }) id: number): Promise<{{properCase name}}Component> {
-    return this.{{lowerCase name}}ComponentsService.findOne(id);
+  @Query(() => {{properCase collectionName}}Component, { collectionName: 'findOne{{properCase collectionName}}Component' })
+  findOne(@Args('id', { type: () => Int }) id: number): Promise<{{properCase collectionName}}Component> {
+    return this.{{lowerCase collectionName}}ComponentsService.findOne(id);
   }
 
-  @Mutation(() => {{properCase name}}Component)
-  update{{lowerCase name}}Component(
-    @Args('update{{properCase name}}ComponentInput') update{{properCase name}}ComponentInput: Update{{properCase name}}ComponentInput,
+  @Mutation(() => {{properCase collectionName}}Component)
+  update{{properCase collectionName}}Component(
+    @Args('update{{properCase collectionName}}ComponentInput') update{{properCase collectionName}}ComponentInput: Update{{properCase collectionName}}ComponentInput,
   ) {
-    return this.{{lowerCase name}}ComponentsService.update(
-      update{{properCase name}}ComponentInput.id,
-      update{{properCase name}}ComponentInput,
+    return this.{{lowerCase collectionName}}ComponentsService.update(
+      update{{properCase collectionName}}ComponentInput.id,
+      update{{properCase collectionName}}ComponentInput,
     );
   }
 
-  @Mutation(() => {{properCase name}}Component)
-  remove{{lowerCase name}}Component(@Args('id', { type: () => Int }) id: number) {
-    return this.{{lowerCase name}}ComponentsService.remove(id);
+  @Mutation(() => {{properCase collectionName}}Component)
+  remove{{properCase collectionName}}Component(@Args('id', { type: () => Int }) id: number) {
+    return this.{{lowerCase collectionName}}ComponentsService.remove(id);
   }
 }

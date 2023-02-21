@@ -8,7 +8,7 @@ import {
 @InputType()
 export class UpdateCollectionInput {
   @IsNotEmpty()
-  @IsNumberString()
+  @Field()
   id: number;
 
   @IsString()

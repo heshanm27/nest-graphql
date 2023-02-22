@@ -51,7 +51,7 @@ export class {{properCase collectionName}}ComponentsResolver {
   }
 
   @Mutation(() => {{properCase collectionName}}Component)
-  remove{{properCase collectionName}}Component(@Args('id', { type: () => Int }) id: number) {
-    return this.{{lowerCase collectionName}}ComponentsService.remove(id);
+  remove{{properCase collectionName}}Component(@Args('id', { type: () => Int }) id: number,    @Args('collectionName') collectionName: string) {
+    return this.{{lowerCase collectionName}}ComponentsService.remove(id,collectionName);
   }
 }

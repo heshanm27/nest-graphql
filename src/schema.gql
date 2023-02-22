@@ -43,6 +43,7 @@ type Collection {
 
 type Blog {
   id: Int!
+  ada: String!
   blogdate: String!
   blogname: String!
 }
@@ -58,6 +59,7 @@ type MovieComponent {
 
 type Movie {
   id: Int!
+  movierate: String!
   moviename: String!
 }
 
@@ -116,12 +118,14 @@ type Mutation {
 }
 
 input BlogInput {
+  ada: String
   blogdate: String
   blogname: String
 }
 
 input UpdateBlogInput {
   id: Float!
+  ada: String
   blogdate: String
   blogname: String
 }
@@ -165,12 +169,16 @@ input UpdateBlogComponentInput {
 }
 
 input MovieInput {
+  gg: String
+  movierate: String
   moviename: String
   id: Float
 }
 
 input UpdateMovieInput {
   id: Float!
+  gg: String
+  movierate: String
   moviename: String
 }
 

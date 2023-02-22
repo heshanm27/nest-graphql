@@ -91,15 +91,22 @@ export class {{properCase collectionName}}ComponentsService {
     return await this.{{lowerCase collectionName}}ComponentRepository.findOneBy({ id });
   }
 
-  async remove(id: number): Promise<{{properCase collectionName}}Component> {
+async remove(id: number, collectionName: string): Promise<{{properCase collectionName}}Component> {
+    const dataSourceConnection = await dataSource.initialize();
+    const queryRunner = dataSourceConnection.createQueryRunner();
     try {
       const component = await this.{{lowerCase collectionName}}ComponentRepository.findOneBy({ id });
-      if (!component) throw new BadRequestException('Product not found');
-      const deleted = await this.{{lowerCase collectionName}}ComponentRepository.delete({ id });
-      console.log(deleted);
+      if (!component) throw new BadRequestException('Component not found');
+      queryRunner.connect();
+      queryRunner.dropColumn(collectionName, component.name);
+      await runCommand(`plop deleteField ${collectionName} ${component.name}`);
+      await this.{{lowerCase collectionName}}ComponentRepository.delete({ id });
       return component;
     } catch (error) {
       throw new BadRequestException(`Component with id ${id} not found`);
+    } finally {
+      queryRunner.release();
+      dataSourceConnection.destroy();
     }
   }
 }

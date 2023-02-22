@@ -35,10 +35,10 @@ export class {{properCase collectionName}}ComponentsResolver {
     return await this.{{lowerCase collectionName}}ComponentsService.find{{properCase collectionName}}Components();
   }
 
-  @Query(() => {{properCase collectionName}}Component, { collectionName: 'findOne{{properCase collectionName}}Component' })
-  findOne(@Args('id', { type: () => Int }) id: number): Promise<{{properCase collectionName}}Component> {
-    return this.{{lowerCase collectionName}}ComponentsService.findOne(id);
-  }
+ // @Query(() => {{properCase collectionName}}Component, { collectionName: 'findOne{{properCase collectionName}}Component' })
+ // findOne(@Args('id', { type: () => Int }) id: number): Promise<{{properCase collectionName}}Component> {
+ //   return this.{{lowerCase collectionName}}ComponentsService.findOne(id);
+ // }
 
   @Mutation(() => {{properCase collectionName}}Component)
   update{{properCase collectionName}}Component(

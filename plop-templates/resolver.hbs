@@ -43,7 +43,7 @@ export class {{properCase collectionName}}Resolver {
   }
 
   @Mutation(() => {{properCase collectionName}})
-  removeProduct(@Args('id', { type: () => Int }) id: number): Promise<{{properCase collectionName}}> {
+  remove{{properCase collectionName}}(@Args('id', { type: () => Int }) id: number): Promise<{{properCase collectionName}}> {
     return this.{{lowerCase collectionName}}Service.remove(id);
   }
 }

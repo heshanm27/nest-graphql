@@ -31,7 +31,6 @@ export default function plopFunc(
 
   plop.setActionType('renameAll', async function (answers, config) {
     const renameAsync = util.promisify(fs.rename);
-    console.log(answers);
 
     const oldFileArr = config.templateFiles.map((file) =>
       plop.renderString(file, answers),
@@ -40,9 +39,7 @@ export default function plopFunc(
       plop.renderString(file, answers),
     );
     try {
-      const filesRenamed = [];
       for (let [index, filepath] of oldFileArr.entries()) {
-        console.log(index);
         const oldFileName = path.basename(filepath);
         const oldPathdirectory = path.dirname(filepath);
         const oldFilepath = path.resolve(oldPathdirectory, oldFileName);
@@ -320,124 +317,177 @@ export default function plopFunc(
     ],
   });
 
-  plop.setGenerator('updateModule', {
-    description: 'update a module',
+  plop.setGenerator('deleteField', {
+    description: 'delete a field',
     prompts: [
+      {
+        type: 'input',
+        name: 'collectionName',
+        message: 'What is the collection name?',
+      },
       {
         type: 'input',
         name: 'name',
         message: 'What is the entity name?',
       },
-      {
-        type: 'input',
-        name: 'newName',
-        message: 'What is the updated entity name?',
-      },
     ],
     actions: function (data) {
-      const regex = new RegExp(`${data.name}`, 'gi');
-      console.log(regex);
-      let action = [
-        // {
-        //   type: 'renameAll',
-        //   templateFiles: [
-        //     `src/dynamic/{{lowerCase name}}/{{lowerCase name}}.module.ts`,
-        //     `src/dynamic/{{lowerCase name}}/{{lowerCase name}}.resolver.ts`,
-        //     `src/dynamic/{{lowerCase name}}/{{lowerCase name}}.service.ts`,
-        //     `src/dynamic/{{lowerCase name}}/entities/{{lowerCase name}}.entity.ts`,
-        //     `src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase name}}.input.ts`,
-        //     `src/dynamic/{{lowerCase name}}/dto/update-{{lowerCase name}}.input.ts`,
-        //     `src/dynamic/{{lowerCase name}}/dto/filter_{{lowerCase name}}_input.ts`,
-        //   ],
-        //   renameTemplate: [
-        //     `src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.module.ts`,
-        //     `src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.resolver.ts`,
-        //     `src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.service.ts`,
-        //     `src/dynamic/{{lowerCase name}}/entities/{{lowerCase newName}}.entity.ts`,
-        //     `src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase newName}}.input.ts`,
-        //     `src/dynamic/{{lowerCase name}}/dto/update-{{lowerCase newName}}.input.ts`,
-        //     `src/dynamic/{{lowerCase name}}/dto/filter_{{lowerCase newName}}_input.ts`,
-        //   ],
-        //   renamer: (name) => `${name}`,
-        // },
-        // {
-        //   type: 'add',
-        //   path: 'src/dynamic/{{lowerCase newName}}/{{lowerCase newName}}.txt',
-        //   templateFile: '',
-        //   skipIfExists: true,
-        // },
-        // {
-        //   type: 'modify',
-        //   path: 'src/app.module.ts',
-        //   pattern: /()/,
-        //   template:
-        //     "import { {{properCase newName}}Module } from './dynamic/{{lowerCase newName}}/{{lowerCase newName}}.module'\n$1",
-        //   skipIfExists: true,
-        // },
-        // {
-        //   type: 'modify',
-        //   path: `src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.module.ts`,
-        //   pattern: /(imports: \[)/,
-        //   template: '$1\n    {{properCase newName}}Module,',
-        //   skipIfExists: true,
-        // },
-        {
-          type: 'modify',
-          path: 'src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.resolver.ts',
-          pattern: regex,
-          template: '{{properCase newName}}',
-          skipIfExists: true,
-        },
-        {
-          type: 'modify',
-          path: 'src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.module.ts',
-          pattern: regex,
-          template: '{{properCase newName}}',
-          skipIfExists: true,
-        },
-        {
-          type: 'modify',
-          path: 'src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.service.ts',
-          pattern: regex,
-          template: '{{properCase newName}}',
-          skipIfExists: true,
-        },
-        {
-          type: 'modify',
-          path: 'src/dynamic/{{lowerCase name}}/entities/{{lowerCase newName}}.entity.ts',
-          pattern: regex,
-          template: '{{properCase newName}}',
-          skipIfExists: true,
-        },
-        {
-          type: 'modify',
-          path: 'src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase newName}}.input.ts',
-          pattern: regex,
-          template: '{{properCase newName}}',
-          skipIfExists: true,
-        },
-        {
-          type: 'modify',
-          path: 'src/dynamic/{{lowerCase name}}/dto/update-{{lowerCase newName}}.input.ts',
-          pattern: regex,
-          template: '{{properCase newName}}',
-          skipIfExists: true,
-        },
-        {
-          type: 'modify',
-          path: 'src/dynamic/{{lowerCase name}}/dto/filter_{{lowerCase newName}}_input.ts',
-          pattern: regex,
-          template: '{{properCase newName}}',
-          skipIfExists: true,
-        },
-        // {
-        //   type: 'copy',
-        //   src: 'src/dynamic/test',
-        //   dest: 'src/dynamic/event2/',
-        // },
-      ];
+      const regex = new RegExp(
+        `.*(@Field\\(\\)\\s+@Column\\(\\)\\s+${data.name}:\\s).*`,
+        'gi',
+      );
 
+      const dtoRegex = new RegExp(
+        `.*@Field\\({\\s*nullable:\\s*true\\s*}\\)\\s*${data.name}:\\s*.*`,
+        'gi',
+      );
+      console.log(regex);
+      const action = [
+        {
+          type: 'modify',
+          path: `src/dynamic/${data.collectionName}/entities/${data.collectionName}.entity.ts`,
+          pattern: regex,
+          template: ``,
+        },
+        {
+          type: 'modify',
+          path: `src/dynamic/{{lowerCase collectionName}}/dto/create-{{lowerCase collectionName}}.input.ts`,
+          pattern: dtoRegex,
+          template: ``,
+        },
+        {
+          type: 'modify',
+          path: `src/dynamic/{{lowerCase collectionName}}/dto/update-{{lowerCase collectionName}}.input.ts`,
+          pattern: dtoRegex,
+          template: ``,
+        },
+      ];
       return action;
     },
   });
+  // plop.setGenerator('updateModule', {
+  //   description: 'update a module',
+  //   prompts: [
+  //     {
+  //       type: 'input',
+  //       name: 'name',
+  //       message: 'What is the entity name?',
+  //     },
+  //     {
+  //       type: 'input',
+  //       name: 'newName',
+  //       message: 'What is the updated entity name?',
+  //     },
+  //   ],
+  //   actions: function (data) {
+  //     const regex = new RegExp(`${data.name}`, 'gi');
+  //     console.log(regex);
+  //     let action = [
+  //       // {
+  //       //   type: 'renameAll',
+  //       //   templateFiles: [
+  //       //     `src/dynamic/{{lowerCase name}}/{{lowerCase name}}.module.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/{{lowerCase name}}.resolver.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/{{lowerCase name}}.service.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/entities/{{lowerCase name}}.entity.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase name}}.input.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/dto/update-{{lowerCase name}}.input.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/dto/filter_{{lowerCase name}}_input.ts`,
+  //       //   ],
+  //       //   renameTemplate: [
+  //       //     `src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.module.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.resolver.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.service.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/entities/{{lowerCase newName}}.entity.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase newName}}.input.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/dto/update-{{lowerCase newName}}.input.ts`,
+  //       //     `src/dynamic/{{lowerCase name}}/dto/filter_{{lowerCase newName}}_input.ts`,
+  //       //   ],
+  //       //   renamer: (name) => `${name}`,
+  //       // },
+  //       // {
+  //       //   type: 'add',
+  //       //   path: 'src/dynamic/{{lowerCase newName}}/{{lowerCase newName}}.txt',
+  //       //   templateFile: '',
+  //       //   skipIfExists: true,
+  //       // },
+  //       // {
+  //       //   type: 'modify',
+  //       //   path: 'src/app.module.ts',
+  //       //   pattern: /()/,
+  //       //   template:
+  //       //     "import { {{properCase newName}}Module } from './dynamic/{{lowerCase newName}}/{{lowerCase newName}}.module'\n$1",
+  //       //   skipIfExists: true,
+  //       // },
+  //       // {
+  //       //   type: 'modify',
+  //       //   path: `src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.module.ts`,
+  //       //   pattern: /(imports: \[)/,
+  //       //   template: '$1\n    {{properCase newName}}Module,',
+  //       //   skipIfExists: true,
+  //       // },
+  //       // {
+  //       //   type: 'modify',
+  //       //   path: 'src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.resolver.ts',
+  //       //   pattern: regex,
+  //       //   template: '{{properCase newName}}',
+  //       //   skipIfExists: true,
+  //       // },
+  //       // {
+  //       //   type: 'modify',
+  //       //   path: 'src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.module.ts',
+  //       //   pattern: regex,
+  //       //   template: '{{properCase newName}}',
+  //       //   skipIfExists: true,
+  //       // },
+  //       // {
+  //       //   type: 'modify',
+  //       //   path: 'src/dynamic/{{lowerCase name}}/{{lowerCase newName}}.service.ts',
+  //       //   pattern: regex,
+  //       //   template: '{{properCase newName}}',
+  //       //   skipIfExists: true,
+  //       // },
+  //       // {
+  //       //   type: 'modify',
+  //       //   path: 'src/dynamic/{{lowerCase name}}/entities/{{lowerCase newName}}.entity.ts',
+  //       //   pattern: regex,
+  //       //   template: '{{properCase newName}}',
+  //       //   skipIfExists: true,
+  //       // },
+  //       // {
+  //       //   type: 'modify',
+  //       //   path: 'src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase newName}}.input.ts',
+  //       //   pattern: regex,
+  //       //   template: '{{properCase newName}}',
+  //       //   skipIfExists: true,
+  //       // },
+  //       // {
+  //       //   type: 'modify',
+  //       //   path: 'src/dynamic/{{lowerCase name}}/dto/update-{{lowerCase newName}}.input.ts',
+  //       //   pattern: regex,
+  //       //   template: '{{properCase newName}}',
+  //       //   skipIfExists: true,
+  //       // },
+  //       // {
+  //       //   type: 'modify',
+  //       //   path: 'src/dynamic/{{lowerCase name}}/dto/filter_{{lowerCase newName}}_input.ts',
+  //       //   pattern: regex,
+  //       //   template: '{{properCase newName}}',
+  //       //   skipIfExists: true,
+  //       // },
+  //       {
+  //         type: 'renameAll',
+  //         templateFiles: [`src/dynamic/{{lowerCase name}}`],
+  //         renameTemplate: [`src/dynamic/{{lowerCase newName}}`],
+  //       },
+  //       // {
+  //       //   type: 'copy',
+  //       //   src: 'src/dynamic/test',
+  //       //   dest: 'src/dynamic/event2/',
+  //       // },
+  //     ];
+
+  //     return action;
+  //   },
+  // });
 }

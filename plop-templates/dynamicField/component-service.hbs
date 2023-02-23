@@ -8,7 +8,7 @@ import { BadRequestException } from '@nestjs/common/exceptions';
 import { exec } from 'child_process';
 import { Collection } from 'src/collection/entities/collection.entity';
 import { runCommand } from 'src/util/command.util';
-
+import dataSource from 'db/data_source';
 @Injectable()
 export class {{properCase collectionName}}ComponentsService {
   constructor(
@@ -78,18 +78,29 @@ export class {{properCase collectionName}}ComponentsService {
     return product;
   }
 
-  async update(
+   async update(
     id: number,
     updateComponentInput: Update{{properCase collectionName}}ComponentInput,
+    collectionName: string,
   ): Promise<{{properCase collectionName}}Component> {
-    const foundComponent = await this.{{lowerCase collectionName}}ComponentRepository.findOneBy({ id });
-
+    const foundComponent = await this.{{lowerCase collectionName}}ComponentRepository.findOneBy({
+      id,
+    });
     if (!foundComponent)
-      throw new BadRequestException(`Component with id ${id} not foundy`);
-
+      throw new BadRequestException(`Component with id ${id} not found`);
     await this.{{lowerCase collectionName}}ComponentRepository.update(id, updateComponentInput);
+    const { name, dataType } = updateComponentInput;
+    const jsonObj = JSON.stringify({ name, type: dataType });
+    const changedObject = JSON.stringify(jsonObj);
+    console.log(
+      `plop updateFiled ${collectionName} ${foundComponent.name} ${changedObject}`,
+    );
+    await runCommand(
+      `plop updateFiled ${collectionName} ${foundComponent.name} ${changedObject}`,
+    );
     return await this.{{lowerCase collectionName}}ComponentRepository.findOneBy({ id });
   }
+
 
 async remove(id: number, collectionName: string): Promise<{{properCase collectionName}}Component> {
     const dataSourceConnection = await dataSource.initialize();

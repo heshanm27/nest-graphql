@@ -43,8 +43,6 @@ type Collection {
 
 type Blog {
   id: Int!
-  ada: String!
-  blogdate: String!
   blogname: String!
 }
 
@@ -59,8 +57,17 @@ type MovieComponent {
 
 type Movie {
   id: Int!
+  movieName: String!
   movierate: String!
-  moviename: String!
+}
+
+type User {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  role: String!
 }
 
 type Query {
@@ -70,13 +77,13 @@ type Query {
   findAllMovie(FilterOptions: MovieFilterInput): [Movie!]!
   findOneMovie(id: Int!): Movie!
   findAllMovieComponents: [MovieComponent!]!
-  findOneMovieComponent(id: Int!): MovieComponent!
   findAllComponents: [Component!]!
   findAllComponentsByCollectionId(collectionID: Int!): [Component!]!
   findOnecomponent(id: Int!): Component!
   FindAllCollection: [Collection!]!
   collectionFindOne(id: Int!): Collection!
   GetCollectionData(id: Int!): ComponentsValue!
+  user(id: Int!): User!
 }
 
 input BlogFilterInput {
@@ -98,13 +105,13 @@ type Mutation {
   updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
   removeBlog(id: Int!): Blog!
   createBlogComponent(createBlogComponentInput: CreateBlogComponentInput!): BlogComponent!
-  updateBlogComponent(updateBlogComponentInput: UpdateBlogComponentInput!): BlogComponent!
-  removeBlogComponent(id: Int!): BlogComponent!
+  updateBlogComponent(collectionName: String!, updateBlogComponentInput: UpdateBlogComponentInput!): BlogComponent!
+  removeBlogComponent(id: Int!, collectionName: String!): BlogComponent!
   createMovie(MovieInput: MovieInput!): Movie!
   updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
   removeMovie(id: Int!): Movie!
   createMovieComponent(createMovieComponentInput: CreateMovieComponentInput!): MovieComponent!
-  updateMovieComponent(updateMovieComponentInput: UpdateMovieComponentInput!): MovieComponent!
+  updateMovieComponent(collectionName: String!, updateMovieComponentInput: UpdateMovieComponentInput!): MovieComponent!
   removeMovieComponent(id: Int!, collectionName: String!): MovieComponent!
   createComponent(createComponentInput: CreateComponentInput!): Component!
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
@@ -115,18 +122,18 @@ type Mutation {
   createComponentsValue(createComponentsValueInput: CreateComponentsValueInput!): ComponentsValue!
   updateComponentsValue(updateComponentsValueInput: UpdateComponentsValueInput!): ComponentsValue!
   removeComponentsValue(id: Int!): ComponentsValue!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
 }
 
 input BlogInput {
-  ada: String
-  blogdate: String
+  id: Float
   blogname: String
 }
 
 input UpdateBlogInput {
   id: Float!
-  ada: String
-  blogdate: String
   blogname: String
 }
 
@@ -161,25 +168,22 @@ enum DataType {
 
 input UpdateBlogComponentInput {
   id: Int!
-  dataType: HTMLInputType
-  htmlInputType: DataType
+  dataType: DataType
+  htmlInputType: HTMLInputType
   name: String
   componentId: String
   label: String
 }
 
 input MovieInput {
-  gg: String
+  movieName: String
   movierate: String
-  moviename: String
-  id: Float
 }
 
 input UpdateMovieInput {
   id: Float!
-  gg: String
+  movieName: String
   movierate: String
-  moviename: String
 }
 
 input CreateMovieComponentInput {
@@ -193,8 +197,8 @@ input CreateMovieComponentInput {
 
 input UpdateMovieComponentInput {
   id: Int!
-  dataType: HTMLInputType
-  htmlInputType: DataType
+  dataType: DataType
+  htmlInputType: HTMLInputType
   name: String
   componentId: String
   label: String
@@ -237,4 +241,19 @@ input UpdateComponentsValueInput {
   id: Int!
   data: JSON!
   collectionId: Int
+}
+
+input CreateUserInput {
+  firstName: String
+  lastName: String
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  id: Int!
 }

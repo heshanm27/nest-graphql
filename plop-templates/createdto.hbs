@@ -9,11 +9,8 @@ import {
 
 @InputType()
 export class {{properCase collectionName}}Input {
- 
-@Field({
- nullable: true,
-})
-@IsString()
-id: number;
+
+  @Field({ nullable: true })
+  id: number;
 
 }

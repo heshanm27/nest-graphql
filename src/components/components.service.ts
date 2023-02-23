@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Component } from './entities/component.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common/exceptions';
-import { exec } from 'child_process';
 import { Collection } from 'src/collection/entities/collection.entity';
 import { runCommand } from 'src/util/command.util';
 

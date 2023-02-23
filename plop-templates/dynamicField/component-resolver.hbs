@@ -42,11 +42,13 @@ export class {{properCase collectionName}}ComponentsResolver {
 
   @Mutation(() => {{properCase collectionName}}Component)
   update{{properCase collectionName}}Component(
+    @Args('collectionName') collectionName: string,
     @Args('update{{properCase collectionName}}ComponentInput') update{{properCase collectionName}}ComponentInput: Update{{properCase collectionName}}ComponentInput,
   ) {
     return this.{{lowerCase collectionName}}ComponentsService.update(
       update{{properCase collectionName}}ComponentInput.id,
       update{{properCase collectionName}}ComponentInput,
+       collectionName,
     );
   }
 

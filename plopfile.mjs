@@ -10,13 +10,15 @@ export default function plopFunc(
   plop.load('plop-pack-remove');
   plop.load('plop-pack-rename-many');
   plop.load('plop-action-copy');
+
+  //helper for access json data
   plop.setHelper('json', function (context) {
     const data = context.data.root.entity;
     const dataaParsed = JSON.parse(data);
-    console.log(dataaParsed);
     return `${dataaParsed.name}: ${dataaParsed.type}`;
   });
 
+  //custom action for delete file
   plop.setActionType('deleteDirectory', async function (answers, config) {
     console.log(config);
     const filePath = config.path;
@@ -29,6 +31,7 @@ export default function plopFunc(
     }
   });
 
+  //custom action for rename file
   plop.setActionType('renameAll', async function (answers, config) {
     const renameAsync = util.promisify(fs.rename);
 
@@ -68,6 +71,7 @@ export default function plopFunc(
     }
   });
 
+  //create new Collection(Module)
   plop.setGenerator('addmodule', {
     description: 'Create a NestJS module',
     prompts: [
@@ -138,6 +142,7 @@ export default function plopFunc(
     ],
   });
 
+  //create new component module
   plop.setGenerator('addFeildMenu', {
     description: 'Create a NestJS module',
     prompts: [
@@ -204,6 +209,7 @@ export default function plopFunc(
     ],
   });
 
+  //add new field to entity
   plop.setGenerator('addComponent', {
     description: 'Create a test object',
     prompts: [
@@ -228,7 +234,7 @@ export default function plopFunc(
       {
         type: 'modify',
         path: 'src/dynamic/{{lowerCase name}}/dto/create-{{lowerCase name}}.input.ts',
-        pattern: /(.*export class.*{)/g,
+        pattern: /(id: number\;)/g,
         template: `$1\n  \n@Field({nullable: true,})\n{{{json}}} \n`,
       },
       {
@@ -247,6 +253,7 @@ export default function plopFunc(
     ],
   });
 
+  //delete module
   plop.setGenerator('delete', {
     description: 'delete a module',
     prompts: [
@@ -317,6 +324,7 @@ export default function plopFunc(
     ],
   });
 
+  //remove field from entity
   plop.setGenerator('deleteField', {
     description: 'delete a field',
     prompts: [
@@ -337,10 +345,7 @@ export default function plopFunc(
         'gi',
       );
 
-      const dtoRegex = new RegExp(
-        `.*@Field\\({\\s*nullable:\\s*true\\s*}\\)\\s*${data.name}:\\s*.*`,
-        'gi',
-      );
+      const dtoRegex = new RegExp(`.*(@Field.*\\s+${data.name}:\\s).*`, 'gi');
       console.log(regex);
       const action = [
         {
@@ -365,6 +370,57 @@ export default function plopFunc(
       return action;
     },
   });
+
+  plop.setGenerator('updateFiled', {
+    description: 'update a field',
+    prompts: [
+      {
+        type: 'input',
+        name: 'collectionName',
+        message: 'What is the collection name?',
+      },
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the entity name?',
+      },
+      {
+        type: 'input',
+        name: 'entity',
+        message: 'What is the entity name?',
+      },
+    ],
+    actions: function (data) {
+      const regex = new RegExp(
+        `.*(@Field\\(\\)\\s+@Column\\(\\)\\s+${data.name}:\\s).*`,
+        'gi',
+      );
+      const dtoRegex = new RegExp(`.*(@Field.*\\s+${data.name}:\\s).*`, 'gi');
+      const action = [
+        {
+          type: 'modify',
+          path: 'src/dynamic/{{lowerCase collectionName}}/entities/{{lowerCase collectionName}}.entity.ts',
+          pattern: regex,
+          template: `@Field()\n @Column()\n {{{json}}} \n`,
+        },
+        {
+          type: 'modify',
+          path: 'src/dynamic/{{lowerCase collectionName}}/dto/create-{{lowerCase collectionName}}.input.ts',
+          pattern: dtoRegex,
+          template: `@Field({nullable: true,})\n{{{json}}} \n`,
+        },
+        {
+          type: 'modify',
+          path: 'src/dynamic/{{lowerCase collectionName}}/dto/update-{{lowerCase collectionName}}.input.ts',
+          pattern: dtoRegex,
+          template: `@Field({nullable: true,})\n{{{json}}} \n`,
+        },
+      ];
+
+      return action;
+    },
+  });
+
   // plop.setGenerator('updateModule', {
   //   description: 'update a module',
   //   prompts: [

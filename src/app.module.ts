@@ -10,6 +10,8 @@ import { dataSourceOptions } from 'db/data_source';
 import { ComponentsModule } from './components/components.module';
 import { CollectionModule } from './collection/collection.module';
 import { ComponentsValueModule } from './components-value/components-value.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { ComponentsValueModule } from './components-value/components-value.modul
     ComponentsModule,
     CollectionModule,
     ComponentsValueModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}

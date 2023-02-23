@@ -24,14 +24,14 @@ export class Update{{properCase collectionName}}ComponentInput {
 
   @IsString()
   @IsNotEmpty()
-  @Field(() => HTMLInputTypes, {
+  @Field(() =>DataType, {
     nullable: true,
   })
   dataType: string;
 
   @IsString()
   @IsNotEmpty()
-  @Field(() => DataType, {
+  @Field(() =>HTMLInputTypes, {
     nullable: true,
   })
   htmlInputType: string;

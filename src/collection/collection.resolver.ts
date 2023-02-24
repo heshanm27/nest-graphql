@@ -13,7 +13,6 @@ import { CreateCollectionInput } from './dto/create-collection.input';
 import { UpdateCollectionInput } from './dto/update-collection.input';
 import { ComponentsService } from 'src/components/components.service';
 import { Component } from 'src/components/entities/component.entity';
-import { exec } from 'child_process';
 
 @Resolver(() => Collection)
 export class CollectionResolver {

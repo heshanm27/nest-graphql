@@ -12,6 +12,7 @@ import { CollectionModule } from './collection/collection.module';
 import { ComponentsValueModule } from './components-value/components-value.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -24,6 +25,9 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       autoLoadEntities: true,
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true,
     }),
     ComponentsModule,
     CollectionModule,

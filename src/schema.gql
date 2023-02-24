@@ -62,12 +62,16 @@ type Movie {
 }
 
 type User {
-  id: Int!
-  firstName: String!
-  lastName: String!
+  id: String!
+  firstName: String
+  lastName: String
   email: String!
   password: String!
-  role: String!
+  role: String
+}
+
+type LoginResponse {
+  access_token: String!
 }
 
 type Query {
@@ -83,7 +87,7 @@ type Query {
   FindAllCollection: [Collection!]!
   collectionFindOne(id: Int!): Collection!
   GetCollectionData(id: Int!): ComponentsValue!
-  user(id: Int!): User!
+  user(id: String!): User!
 }
 
 input BlogFilterInput {
@@ -122,9 +126,10 @@ type Mutation {
   createComponentsValue(createComponentsValueInput: CreateComponentsValueInput!): ComponentsValue!
   updateComponentsValue(updateComponentsValueInput: UpdateComponentsValueInput!): ComponentsValue!
   removeComponentsValue(id: Int!): ComponentsValue!
-  createUser(createUserInput: CreateUserInput!): User!
+  login(email: String!, password: String!): LoginResponse!
+  signUp(signupdata: CreateUserInput!): LoginResponse!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  removeUser(id: String!): User!
 }
 
 input BlogInput {
@@ -255,5 +260,5 @@ input UpdateUserInput {
   lastName: String
   email: String
   password: String
-  id: Int!
+  id: String!
 }

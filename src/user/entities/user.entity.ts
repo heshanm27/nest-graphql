@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -11,16 +11,16 @@ import bcrypt from 'bcrypt';
 @Entity()
 @ObjectType()
 export class User {
-  @PrimaryGeneratedColumn('increment')
-  @Field((type) => Int)
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  @Field()
+  id: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   firstName: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   lastName: string;
 
   @Column({ unique: true })
@@ -32,19 +32,23 @@ export class User {
   password: string;
 
   @Column({ default: 'user' })
-  @Field()
+  @Field({ nullable: true })
   role: string;
 
   @BeforeInsert()
   emailToLowerCase() {
+    console.log('this.email', this.email);
     this.email = this.email.toLowerCase();
   }
 
-  @BeforeInsert()
-  @BeforeUpdate()
-  hashPassword() {
-    bcrypt.hash(process.env.BCRYPT_PASSWORD, 10, function (err, hash) {
-      this.password = hash;
-    });
-  }
+  // @BeforeInsert()
+  // @BeforeUpdate()
+  // hashPassword() {
+  //   bcrypt.hash('secreate', 10, function (err, hash) {
+  //     console.log('hash', this);
+  //     console.log('err', err);
+  //     console.log('this.password', this.password);
+  //     this.password = hash;
+  //   });
+  // }
 }

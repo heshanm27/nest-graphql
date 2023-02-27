@@ -26,12 +26,15 @@ export class AuthService {
   }
 
   async logIn(user: LoginUserInput): Promise<LoginResponse> {
+    const foundUser = await this.userService.findOneByEmail(user.email);
     const payload = {
-      email: user.email,
+      userId: foundUser.id,
     };
 
     return {
       access_token: this.jwtService.sign(payload),
+      userRole: foundUser.role,
+      userName: foundUser.firstName + ' ' + foundUser.lastName,
     };
   }
 

@@ -8,7 +8,7 @@ export const dataSourceOptions: DataSourceOptions = {
   password: '',
   database: 'nestjsgraphql',
   entities: ['dist/**/*.entity{.ts,.js}'],
-  migrations: ['dist/db/migrations/*{.ts,.js}'],
+  migrations: ['dist/db/migrations/*.js'],
   synchronize: true,
 };
 

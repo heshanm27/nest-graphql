@@ -15,7 +15,6 @@ export class AuthResolver {
     @Args('email') email: string,
     @Args('password') password: string,
   ) {
-    console.log('email: ', await this.authService.logIn({ email, password }));
     return await this.authService.logIn({ email, password });
   }
 

@@ -1,11 +1,12 @@
 export enum HTMLInputTypes {
-  DATE = 'date',
+  // DATE = 'date',
   EMAIL = 'email',
   NUMBER = 'number',
   PASSWORD = 'password',
   TEXT = 'text',
-  TIME = 'time',
-  FILE = 'file',
+  DATE = 'date',
+  // TIME = 'time',
+  // FILE = 'file',
   CHECKBOX = 'checkbox',
 }
 

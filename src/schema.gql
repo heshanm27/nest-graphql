@@ -2,7 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type BlogComponent {
+type EventComponent {
   id: Int!
   htmlInputType: String!
   dataType: String!
@@ -41,12 +41,11 @@ type Collection {
   componentsValue: [ComponentsValue!]!
 }
 
-type Blog {
+type Event {
   id: Int!
-  blogname: String!
 }
 
-type MovieComponent {
+type BlogComponent {
   id: Int!
   htmlInputType: String!
   dataType: String!
@@ -55,10 +54,11 @@ type MovieComponent {
   label: String
 }
 
-type Movie {
+type Blog {
   id: Int!
-  movieName: String!
-  movierate: String!
+  movieno: Float!
+  moviedate: String!
+  images: String!
 }
 
 type User {
@@ -77,12 +77,12 @@ type LoginResponse {
 }
 
 type Query {
+  findAllEvent(FilterOptions: EventFilterInput): [Event!]!
+  findOneEvent(id: Int!): Event!
+  findAllEventComponents: [EventComponent!]!
   findAllBlog(FilterOptions: BlogFilterInput): [Blog!]!
   findOneBlog(id: Int!): Blog!
   findAllBlogComponents: [BlogComponent!]!
-  findAllMovie(FilterOptions: MovieFilterInput): [Movie!]!
-  findOneMovie(id: Int!): Movie!
-  findAllMovieComponents: [MovieComponent!]!
   findAllComponents: [Component!]!
   findAllComponentsByCollectionId(collectionID: Int!): [Component!]!
   findOnecomponent(id: Int!): Component!
@@ -92,6 +92,13 @@ type Query {
   user(id: String!): User!
 }
 
+input EventFilterInput {
+  page: Float = 1
+  limit: Float = 10
+  sort: String = "ASC"
+  orderBy: String
+}
+
 input BlogFilterInput {
   page: Float = 1
   limit: Float = 10
@@ -99,26 +106,19 @@ input BlogFilterInput {
   orderBy: String
 }
 
-input MovieFilterInput {
-  page: Float = 1
-  limit: Float = 10
-  sort: String = "ASC"
-  orderBy: String
-}
-
 type Mutation {
+  createEvent(EventInput: EventInput!): Event!
+  updateEvent(updateEventInput: UpdateEventInput!): Event!
+  removeEvent(id: Int!): Event!
+  createEventComponent(createEventComponentInput: CreateEventComponentInput!): EventComponent!
+  updateEventComponent(collectionName: String!, updateEventComponentInput: UpdateEventComponentInput!): EventComponent!
+  removeEventComponent(id: Int!, collectionName: String!): EventComponent!
   createBlog(BlogInput: BlogInput!): Blog!
   updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
   removeBlog(id: Int!): Blog!
   createBlogComponent(createBlogComponentInput: CreateBlogComponentInput!): BlogComponent!
   updateBlogComponent(collectionName: String!, updateBlogComponentInput: UpdateBlogComponentInput!): BlogComponent!
   removeBlogComponent(id: Int!, collectionName: String!): BlogComponent!
-  createMovie(MovieInput: MovieInput!): Movie!
-  updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
-  removeMovie(id: Int!): Movie!
-  createMovieComponent(createMovieComponentInput: CreateMovieComponentInput!): MovieComponent!
-  updateMovieComponent(collectionName: String!, updateMovieComponentInput: UpdateMovieComponentInput!): MovieComponent!
-  removeMovieComponent(id: Int!, collectionName: String!): MovieComponent!
   createComponent(createComponentInput: CreateComponentInput!): Component!
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
@@ -134,17 +134,15 @@ type Mutation {
   removeUser(id: String!): User!
 }
 
-input BlogInput {
+input EventInput {
   id: Float
-  blogname: String
 }
 
-input UpdateBlogInput {
+input UpdateEventInput {
   id: Float!
-  blogname: String
 }
 
-input CreateBlogComponentInput {
+input CreateEventComponentInput {
   htmlInputType: HTMLInputType! = TEXT
   dataType: DataType! = STRING
   name: String!
@@ -155,13 +153,11 @@ input CreateBlogComponentInput {
 
 """HTML Input Types """
 enum HTMLInputType {
-  DATE
   EMAIL
   NUMBER
   PASSWORD
   TEXT
-  TIME
-  FILE
+  DATE
   CHECKBOX
 }
 
@@ -173,7 +169,7 @@ enum DataType {
   DATE
 }
 
-input UpdateBlogComponentInput {
+input UpdateEventComponentInput {
   id: Int!
   dataType: DataType
   htmlInputType: HTMLInputType
@@ -182,18 +178,24 @@ input UpdateBlogComponentInput {
   label: String
 }
 
-input MovieInput {
-  movieName: String
-  movierate: String
+input BlogInput {
+  id: Float
+  movieno: Float
+  moviedate: String
+  images: [Upload!]!
 }
 
-input UpdateMovieInput {
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input UpdateBlogInput {
   id: Float!
-  movieName: String
-  movierate: String
+  movieno: Float
+  moviedate: String
+  image: Upload!
 }
 
-input CreateMovieComponentInput {
+input CreateBlogComponentInput {
   htmlInputType: HTMLInputType! = TEXT
   dataType: DataType! = STRING
   name: String!
@@ -202,7 +204,7 @@ input CreateMovieComponentInput {
   label: String
 }
 
-input UpdateMovieComponentInput {
+input UpdateBlogComponentInput {
   id: Int!
   dataType: DataType
   htmlInputType: HTMLInputType

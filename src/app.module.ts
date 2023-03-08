@@ -1,8 +1,7 @@
+import { EventModule } from './dynamic/event/event.module';
 import { BlogModule } from './dynamic/blog/blog.module';
-import { MovieModule } from './dynamic/movie/movie.module';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloDriver } from '@nestjs/apollo/dist/drivers';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -13,14 +12,19 @@ import { ComponentsValueModule } from './components-value/components-value.modul
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
+import { AppService } from './app.service';
+import { ApolloDriverConfig } from '@nestjs/apollo/dist/interfaces';
 
 @Module({
+  providers: [AppService],
   imports: [
+    EventModule,
     BlogModule,
-    MovieModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+
+    GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      uploads: false,
     }),
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
